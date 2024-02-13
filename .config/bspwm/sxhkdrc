@@ -30,6 +30,10 @@ super + {_,shift + }{1-8}
 
 #####
 
+
+shift + ctrl + {h,l}
+	playerctl { previous ,next}
+
 # Apps (browser, editor, filemanager)
 shift + alt + {b,g,f}
 	OpenApps {--browser,--editor,--filemanager}
