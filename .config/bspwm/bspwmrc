@@ -50,6 +50,7 @@ bspc config pointer_modifier			mod4
 bspc config pointer_action1				move
 bspc config pointer_action2				resize_side
 bspc config pointer_action3				resize_corner
+bspc rule -a Web2app desktop=^4
 
 #bspc wm --adopt-orphans
 bspc rule -a scratch sticky=on state=floating focus=on
@@ -102,3 +103,6 @@ pidof -q picom || { picom -b --config "$HOME"/.config/bspwm/picom.conf & }
 clipcatd
 
 kdeconnect-cli -n "MI 9"
+
+spotify-launcher &
+OpenApps --terminal

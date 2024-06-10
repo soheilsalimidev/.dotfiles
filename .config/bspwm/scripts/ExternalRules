@@ -63,6 +63,10 @@ result() {
 		Spotify)
 			result "state=pseudo_tiled desktop=^6 follow=on"
 			;;
+    Web2app)
+			result "state=pseudo_tiled desktop=^4 follow=on"
+			;;
+
 	esac
 
 	case "$instance" in

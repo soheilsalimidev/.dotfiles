@@ -113,7 +113,7 @@ fi
 #  ┌─┐┬  ┬┌─┐┌─┐
 #  ├─┤│  │├─┤└─┐
 #  ┴ ┴┴─┘┴┴ ┴└─┘
-alias mirrors="sudo reflector --verbose --latest 5 --country 'United States' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --verbose --latest 5 --country 'Iran' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
 
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias mantenimiento="yay -Sc && sudo pacman -Scc"
@@ -124,7 +124,7 @@ alias vm-on="sudo systemctl start libvirtd.service"
 alias vm-off="sudo systemctl stop libvirtd.service"
 
 alias musica="ncmpcpp"
-
+alias med="sudo mkdir /run/media/arthur/Education -p &&  sudo mount /dev/sda6 /run/media/arthur/Education"
 alias ls='lsd -a --group-directories-first'
 alias ll='lsd -la --group-directories-first'
 alias l='lvim'
@@ -132,7 +132,6 @@ alias l='lvim'
 #  ┌─┐┬ ┬┌┬┐┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌┬┐
 #  ├─┤│ │ │ │ │  └─┐ │ ├─┤├┬┘ │ 
 #  ┴ ┴└─┘ ┴ └─┘  └─┘ ┴ ┴ ┴┴└─ ┴ 
-$HOME/.local/bin/colorscript -r
 
 if [[ -z "$TMUX" ]] ;  then
     if tmux has-session 2>/dev/null; then
@@ -141,7 +140,7 @@ if [[ -z "$TMUX" ]] ;  then
         exec tmux
     fi
 fi
-
+$HOME/.local/bin/colorscript -r
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -154,3 +153,77 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+alias kp='kill_process_by_port() { sudo kill -9 $(sudo lsof -t -i:"$1"); }; kill_process_by_port "$@"'
+
+
+# Show proxy settings
+function proxy_show(){
+   env | grep -e _PROXY -e _proxy | sort
+}
+
+# Configure proxy
+function proxy_on(){
+   # You may need to hardcode your password, proxy server, and proxy port
+   # if the following variables do not exist
+   export HTTP_PROXY="http://127.0.0.1:20171"
+   export HTTPS_PROXY=$HTTP_PROXY
+   export FTP_PROXY=$HTTP_PROXY
+   export http_proxy=$HTTP_PROXY
+   export https_proxy=$HTTP_PROXY
+   export ftp_proxy=$HTTP_PROXY
+   # export SOCKS_PROXY=$HTTP_PROXY
+   # export no_proxy="localhost,127.0.0.1,$USERDNSDOMAIN"
+   export no_proxy="localhost,127.0.0.0/8,::1"
+
+   # Update git and npm to use the proxy
+   if hash git 2>/dev/null; then
+     git config --global http.proxy $HTTP_PROXY
+     git config --global https.proxy $HTTP_PROXY
+   fi
+   
+   if hash npm 2>/dev/null; then
+     npm config set proxy $HTTP_PROXY
+     npm config set https-proxy $HTTP_PROXY
+     # npm config set strict-ssl false
+     # npm config set registry "http://registry.npmjs.org/"
+   fi
+
+   proxy_show
+   echo -e "\nProxy-related environment variables set."
+
+   # clear
+}
+
+# Enable proxy settings immediately
+# proxy_on
+
+# Disable proxy settings
+function proxy_off(){
+   variables=( \
+      "HTTP_PROXY" "HTTPS_PROXY" "FTP_PROXY" \
+      "no_proxy" "http_proxy" "https_proxy" "ftp_proxy" \
+   )
+
+   for i in "${variables[@]}"
+   do
+      unset $i
+   done
+   
+   # Update git and npm to disable the proxy
+   if hash git 2>/dev/null; then
+     git config --global --unset http.proxy
+     git config --global --unset https.proxy
+   fi
+   
+   if hash npm 2>/dev/null; then
+     npm config rm proxy
+     npm config rm https-proxy
+     # npm config set strict-ssl false
+     # npm config set registry "http://registry.npmjs.org/"
+   fi
+
+   proxy_show
+   echo -e "\nProxy-related environment variables removed."
+}
+
+export PATH=$PATH:/home/arthur/.spicetify

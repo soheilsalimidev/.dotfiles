@@ -39,12 +39,33 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 lvim.plugins = {
   {
-    'norcalli/nvim-colorizer.lua',
+    "themaxmarchuk/tailwindcss-colors.nvim",
     config = function()
-      require("colorizer").setup()
-    end,
+      require("tailwindcss-colors").setup()
+    end
   },
-
+  {
+    "Redoxahmii/json-to-types.nvim",
+    build = "sh install.sh pnpm",
+    keys = {
+      {
+        "<leader>tu",
+        "<CMD>ConvertJSONtoTS<CR>",
+        desc = "Convert JSON to TS",
+      },
+      {
+        "<leader>tt",
+        "<CMD>ConvertJSONtoTSBuffer<CR>",
+        desc = "Convert JSON to TS in buffer",
+      },
+    },
+  },
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require 'colorizer'.setup()
+    end
+  },
   {
     "johmsalas/text-case.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
@@ -162,17 +183,17 @@ lvim.plugins = {
 }, {
   'iamcco/markdown-preview.nvim'
 },
-  {
-    'Exafunction/codeium.vim',
-    config = function()
-      -- Change '<C-g>' here to any keycode you like.
+  -- {
+  --   'Exafunction/codeium.vim',
+  --   config = function()
+  --     -- Change '<C-g>' here to any keycode you like.
 
-      vim.keymap.set('i', '<Right>', function() return vim.fn['codeium#Accept']() end, { expr = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
-      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
-    end
-  },
+  --     vim.keymap.set('i', '<Right>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+  --     vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+  --     vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+  --     vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+  --   end
+  -- },
   {
     'linrongbin16/lsp-progress.nvim',
     config = function()
@@ -186,7 +207,15 @@ lvim.plugins = {
     'stevearc/dressing.nvim',
   },
   config = true,
-}
+}, {
+  "valen20Chx/nvim-i18n-tools",
+  config = function()
+    require("nvim-i18n-tools").setup()
+  end,
+},
+  {
+    "lvimuser/lsp-inlayhints.nvim",
+  }
 }
 
 lvim.builtin.terminal.open_mapping = "<c-t>"
@@ -195,6 +224,23 @@ lvim.builtin.terminal.direction = 'horizontal'
 lvim.keys.normal_mode["<A-h>"] = "<Cmd>bp<CR>"
 lvim.keys.normal_mode["<A-l>"] = "<Cmd>bn<CR>"
 local lspconfig = require('lspconfig')
+
+-- local mason_registry = require('mason-registry')
+-- local vue_language_server_path = mason_registry.get_package('vue-language-server').get_install_path() .. '/node_modules/@vue/language-server'
+
+lspconfig.tsserver.setup {
+  init_options = {
+    plugins = {
+      {
+        name = '@vue/typescript-plugin',
+        location = "/home/arthur/.local/share/lvim/mason/packages/vue-language-server/node_modules/@vue/language-server",
+        languages = { 'vue' },
+      },
+    },
+  },
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+}
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 lspconfig.taplo.setup({
@@ -203,19 +249,19 @@ lspconfig.taplo.setup({
   filetypes = { 'toml' },
 })
 
-lspconfig.emmet_ls.setup({
-  -- on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = { 'html', 'typescriptreact', 'vue', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
-  init_options = {
-    html = {
-      options = {
-        -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-        ["bem.enabled"] = true,
-      },
-    },
-  }
-})
+-- lspconfig.emmet_ls.setup({
+--   -- on_attach = on_attach,
+--   capabilities = capabilities,
+--   filetypes = { 'html', 'typescriptreact', 'vue', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
+--   init_options = {
+--     html = {
+--       options = {
+--         -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+--         ["bem.enabled"] = true,
+--       },
+--     },
+--   }
+-- })
 local opts = { noremap = true, silent = true }
 
 local function quickfix()
@@ -311,7 +357,7 @@ formatters.setup {
   },
   {
     name = "prettierd",
-    filetypes = { "typescript", "typescriptreact", "vue" },
+    filetypes = { "typescript", "typescriptreact", "vue", "css", "scss" },
   },
 }
 
@@ -323,3 +369,30 @@ vim.keymap.set('n', '<C-j>', '<cmd> TmuxNavigateUp<CR>')
 vim.keymap.set('n', '<C-k>', '<cmd> TmuxNavigateRight<CR>')
 
 vim.o.termguicolors = true
+
+
+vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = "LspAttach_inlayhints",
+  callback = function(args)
+    if not (args.data and args.data.client_id) then
+      return
+    end
+
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    require("lsp-inlayhints").on_attach(client, bufnr)
+  end,
+})
+
+local nvim_lsp = require("lspconfig")
+
+local on_attach = function(client, bufnr)
+  -- other stuff --
+  require("tailwindcss-colors").buf_attach(bufnr)
+end
+
+nvim_lsp["tailwindcss"].setup({
+  -- other settings --
+  on_attach = on_attach,
+})
