@@ -34,11 +34,9 @@ super + {_,shift + }{1-8}
 shift + ctrl + {h,l}
 	playerctl { previous ,next}
 
-# Apps (browser, editor, filemanager)
-shift + alt + {b,g,f}
-	OpenApps {--browser,--editor,--filemanager}
+shift + alt + {b,f}
+	OpenApps {--browser,,--filemanager}
 
-# Terminal apps (ranger, nvim, ncmpcpp)
 shift + alt + {r,n,k}
 	OpenApps {--ranger,--nvim,--music}
 
@@ -117,8 +115,8 @@ super + {_,shift + }q
 	bspc node -{c,k}
 	
 # Reload Keybindings
-super + Escape
-	pkill -USR1 -x sxhkd; dunstify -u low -i ~/.config/bspwm/assets/reload.svg 'sxhkd' 'The configuration file has been reloaded successfully!'
+# super + Escape
+# 	pkill -USR1 -x sxhkd; dunstify -u low -i ~/.config/bspwm/assets/reload.svg 'sxhkd' 'The configuration file has been reloaded successfully!'
 
 #####
 

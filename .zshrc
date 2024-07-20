@@ -88,7 +88,7 @@ PS1='%B%F{blue}%f%b  %B%F{magenta}%n%f%b $(dir_icon)  %B%F{red}%~%f%b${vcs_in
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-
+source <(fzf --zsh)
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
@@ -127,7 +127,12 @@ alias musica="ncmpcpp"
 alias med="sudo mkdir /run/media/arthur/Education -p &&  sudo mount /dev/sda6 /run/media/arthur/Education"
 alias ls='lsd -a --group-directories-first'
 alias ll='lsd -la --group-directories-first'
-alias l='lvim'
+# alias l='lvim'
+alias n='nvim'
+alias ..='cd ./..'
+alias ...='cd ./../..'
+alias ....='cd ./../../..'
+alias kil='ps -ef | fzf | awk '{print $2}' | xargs kill -9'
 
 #  ┌─┐┬ ┬┌┬┐┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌┬┐
 #  ├─┤│ │ │ │ │  └─┐ │ ├─┤├┬┘ │ 
@@ -227,3 +232,14 @@ function proxy_off(){
 }
 
 export PATH=$PATH:/home/arthur/.spicetify
+
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284 \
+--color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
+--color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
+
+export FZF_DEFAULT_OPTS="--tmux 70% --preview 'bat --color=always {}' --preview-window '~3'"
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+unsetopt BEEP
+eval "$(zoxide init zsh)"

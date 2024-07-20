@@ -93,12 +93,8 @@ lvim.plugins = {
     -- pass config options here (or nothing to use defaults)
     require("tailwindcss-colors").setup()
   end
-}, {
-  'anuvyklack/pretty-fold.nvim',
-  config = function()
-    require('pretty-fold').setup()
-  end
-}, {
+}
+, {
   "Pocco81/auto-save.nvim",
   config = function()
     require("auto-save").setup {
@@ -228,6 +224,31 @@ local lspconfig = require('lspconfig')
 -- local mason_registry = require('mason-registry')
 -- local vue_language_server_path = mason_registry.get_package('vue-language-server').get_install_path() .. '/node_modules/@vue/language-server'
 
+lspconfig.jsonls.setup {
+  filetypes = { 'json', 'json5' },
+}
+
+
+lspconfig.lua_ls.setup {
+  filetypes = { 'lua' },
+}
+
+lspconfig.rust_analyzer.setup {
+  filetypes = { 'rs', 'rust' },
+}
+
+lspconfig.jsonls.setup {
+  filetypes = { 'json' },
+}
+
+lspconfig.prismals.setup {
+  filetypes = { 'prisma' },
+}
+
+lspconfig.volar.setup {
+  filetypes = { 'vue' },
+}
+
 lspconfig.tsserver.setup {
   init_options = {
     plugins = {
@@ -238,7 +259,7 @@ lspconfig.tsserver.setup {
       },
     },
   },
-  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'd.ts' },
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -348,19 +369,22 @@ lvim.builtin.lualine.sections.lualine_x = { components.lsp, 'filetype',
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   {
-    name = "sqlfmt",
-    filetypes = { "typescript", "typescriptreact", "sql" },
-  },
-  {
-    name = "eslint",
-    filetypes = { "typescript", "typescriptreact", "vue" },
-  },
-  {
     name = "prettierd",
     filetypes = { "typescript", "typescriptreact", "vue", "css", "scss" },
   },
 }
 
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  {
+    name = "eslint_d",
+    filetypes = { "typescript", "typescriptreact", "vue" },
+  },
+  -- {
+  --   name = "cspell",
+  --   filetypes = { 'vue', 'typescript', 'josn', 'rs', 'prisma', 'lua', 'rust', 'javascript' },
+  -- }
+}
 
 -- tmux
 vim.keymap.set('n', '<C-h>', '<cmd> TmuxNavigateLeft<CR>')
@@ -396,3 +420,11 @@ nvim_lsp["tailwindcss"].setup({
   -- other settings --
   on_attach = on_attach,
 })
+
+local code_actions = require "lvim.lsp.null-ls.code_actions"
+code_actions.setup {
+  {
+    name = "eslint_d",
+    filetypes = { "typescript", "vue" },
+  },
+}
