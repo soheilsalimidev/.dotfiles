@@ -35,7 +35,7 @@ local on_attach = function(_, bufnr)
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('<leader>gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
@@ -174,7 +174,6 @@ require('lspconfig').tsserver.setup {
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
 }
 
-
 require('lspconfig').rust_analyzer.setup {
   on_attach = on_attach,
   capabilities = capabilities,
@@ -205,6 +204,10 @@ require('lspconfig').rust_analyzer.setup {
       },
     }
   }
+}
+
+require('lspconfig').prismals.setup {
+  filetypes = { 'prisma' },
 }
 
 vim.api.nvim_create_autocmd('FileType', {

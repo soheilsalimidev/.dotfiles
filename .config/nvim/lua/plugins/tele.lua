@@ -23,7 +23,6 @@ require('telescope').setup {
     mappings = {
       i = {
         ['<C-u>'] = false,
-        ['<C-d>'] = false,
         ["<C-j>"] = require('telescope.actions').move_selection_next,
         ["<C-k>"] = require('telescope.actions').move_selection_previous,
         ["<C-d>"] = require('telescope.actions').move_selection_previous,
@@ -37,7 +36,7 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader>/', function()
+vim.keymap.set('n', '<leader>sb', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
