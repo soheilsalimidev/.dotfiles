@@ -12,7 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Fixes Notify opacity issues
+-- Fixes ( Notify opacity ) issues
 vim.o.termguicolors = true
 
 require("lazy").setup({
@@ -34,44 +34,25 @@ require("lazy").setup({
 			},
 		},
 	},
-	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
+	-- {
+	-- 	"ThePrimeagen/harpoon",
+	-- 	branch = "harpoon2",
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- },
 	-- {
 	--   "mistricky/codesnap.nvim",
 	--   build = "make",
 	-- },
-	{
-		"NeogitOrg/neogit",
-		lazy = false,
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"sindrets/diffview.nvim", -- optional - Diff integration
-			"nvim-telescope/telescope.nvim", -- optional
-		},
-		config = true,
-	},
-	{
-		"Exafunction/codeium.vim",
-		event = "InsertEnter",
-		config = function()
-			-- Change '<C-g>' here to any keycode you like.
-			vim.keymap.set("i", "<C-e>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-n>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-p>", function()
-				return vim.fn["codeium#CycleCompletions"](-1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-x>", function()
-				return vim.fn["codeium#Clear"]()
-			end, { expr = true, silent = true })
-		end,
-	},
+	-- {
+	-- 	"NeogitOrg/neogit",
+	-- 	lazy = false,
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim", -- required
+	-- 		"sindrets/diffview.nvim", -- optional - Diff integration
+	-- 		"nvim-telescope/telescope.nvim", -- optional
+	-- 	},
+	-- 	config = true,
+	-- },
 	"onsails/lspkind.nvim",
 	{
 		"iamcco/markdown-preview.nvim",
@@ -83,7 +64,7 @@ require("lazy").setup({
 	},
 	"preservim/vim-pencil",
 	"folke/zen-mode.nvim",
-	"tpope/vim-obsession",
+	-- "tpope/vim-obsession",
 	-- Tree
 	{
 		"nvim-tree/nvim-tree.lua",
@@ -99,8 +80,15 @@ require("lazy").setup({
 			require("alpha").setup(require("alpha.themes.dashboard").config)
 		end,
 	},
-	"ThePrimeagen/git-worktree.nvim",
-	"tpope/vim-surround",
+	-- "ThePrimeagen/git-worktree.nvim",
+	{
+		"kylechui/nvim-surround",
+		version = "*",
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({})
+		end,
+	},
 	"xiyaowong/nvim-transparent",
 	{
 		"rmagatti/goto-preview",
@@ -135,32 +123,22 @@ require("lazy").setup({
 		cmd = "Trouble",
 		keys = {
 			{
-				"<leader>xx",
+				"<leader>lX",
 				"<cmd>Trouble diagnostics toggle<cr>",
 				desc = "Diagnostics (Trouble)",
 			},
 			{
-				"<leader>xX",
+				"<leader>lx",
 				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
 				desc = "Buffer Diagnostics (Trouble)",
 			},
 			{
-				"<leader>cs",
-				"<cmd>Trouble symbols toggle focus=false<cr>",
-				desc = "Symbols (Trouble)",
-			},
-			{
-				"<leader>cl",
-				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-				desc = "LSP Definitions / references / ... (Trouble)",
-			},
-			{
-				"<leader>xL",
+				"<leader>ll",
 				"<cmd>Trouble loclist toggle<cr>",
 				desc = "Location List (Trouble)",
 			},
 			{
-				"<leader>xQ",
+				"<leader>lQ",
 				"<cmd>Trouble qflist toggle<cr>",
 				desc = "Quickfix List (Trouble)",
 			},
@@ -205,7 +183,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
 	{
 		"folke/noice.nvim",
 		config = function()
@@ -236,6 +213,13 @@ require("lazy").setup({
 								{ find = "%d fewer lines" },
 								{ find = "%d more lines" },
 							},
+						},
+						opts = { skip = true },
+					},
+					{
+						filter = {
+							event = "notify",
+							find = "No information available",
 						},
 						opts = { skip = true },
 					},
@@ -331,7 +315,6 @@ require("lazy").setup({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "neorg" },
-					{ name = "codeium" },
 					{
 						name = "spell",
 						option = {
@@ -479,37 +462,6 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		event = { "BufReadPre", "BufNewFile" },
-		config = function()
-			local conform = require("conform")
-
-			conform.setup({
-				formatters_by_ft = {
-					javascript = { "prettier" },
-					typescript = { "prettier" },
-					javascriptreact = { "prettier" },
-					typescriptreact = { "prettier" },
-					svelte = { "prettier" },
-					css = { "prettier" },
-					html = { "prettier" },
-					json = { "prettier" },
-					yaml = { "prettier" },
-					markdown = { "prettier" },
-					graphql = { "prettier" },
-					liquid = { "prettier" },
-					lua = { "stylua" },
-					vue = { "prettier" },
-					python = { "isort", "black" },
-				},
-			})
-
-			vim.keymap.set({ "n", "v" }, "<leader>lf", function()
-				conform.format({
-					lsp_fallback = false,
-					async = true,
-					-- timeout_ms = 4000,
-				})
-			end, { desc = "Format file or range (in visual mode)" })
-		end,
 	},
 	{
 		"roobert/tailwindcss-colorizer-cmp.nvim",
@@ -543,16 +495,6 @@ require("lazy").setup({
 		init = function()
 			-- Your DBUI configuration
 			vim.g.db_ui_use_nerd_fonts = 1
-		end,
-	},
-	{
-		"Exafunction/codeium.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"hrsh7th/nvim-cmp",
-		},
-		config = function()
-			require("codeium").setup({})
 		end,
 	},
 	{
@@ -592,15 +534,10 @@ require("lazy").setup({
 		dependencies = { "rafamadriz/friendly-snippets" },
 	},
 	{
-		"folke/persistence.nvim",
-		event = "BufReadPre", -- this will only start session saving when an actual file was opened
-		options = {
-			"globals",
-			dir = vim.fn.stdpath("state") .. "/sessions/",
-			branch = true,
-		},
-		pre_save = function()
-			vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" })
-		end,
+		"olimorris/persisted.nvim",
+		lazy = true,
+		priority=60,
+		autoload = true,
+		config = true,
 	},
 })

@@ -29,13 +29,14 @@ local config = {
 	},
 	update_cwd = true,
 	renderer = {
+		special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
 		add_trailing = false,
 		group_empty = false,
-		highlight_git = false,
+		highlight_git = "name",
 		highlight_opened_files = "none",
 		root_folder_modifier = ":t",
 		indent_markers = {
-			enable = false,
+			enable = true,
 			icons = {
 				corner = "└ ",
 				edge = "│ ",
@@ -95,7 +96,9 @@ local config = {
 	git = {
 		enable = true,
 		ignore = true,
-		timeout = 1000,
+		timeout = 2000,
+		show_on_dirs = true,
+		show_on_open_dirs = true,
 	},
 	view = {
 		width = 30,

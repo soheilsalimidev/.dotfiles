@@ -206,6 +206,24 @@ require('lspconfig').rust_analyzer.setup {
   }
 }
 
+require('lspconfig').gradle_ls.setup {
+  filetypes = { 'gradle' },
+}
+
+-- require('lspconfig').java.setup {
+--   filetypes = { 'java' },
+-- }
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'sh',
+  callback = function()
+    vim.lsp.start({
+      name = 'bash-language-server',
+      cmd = { 'bash-language-server', 'start' },
+    })
+  end,
+})
+
 require('lspconfig').prismals.setup {
   filetypes = { 'prisma' },
 }
