@@ -35,7 +35,7 @@ shift + ctrl + {h,l}
 	playerctl { previous ,next}
 
 shift + alt + {b,f}
-	OpenApps {--browser,,--filemanager}
+	OpenApps {--browser,--filemanager}
 
 shift + alt + {r,n,k}
 	OpenApps {--ranger,--nvim,--music}

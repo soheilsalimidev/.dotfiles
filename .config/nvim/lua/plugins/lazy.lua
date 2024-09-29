@@ -260,24 +260,45 @@ require("lazy").setup({
 			"j-hui/fidget.nvim",
 		},
 	},
-
+	{
+		"David-Kunz/cmp-npm",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		ft = "json",
+		config = function()
+			require("cmp-npm").setup({})
+		end,
+	},
+	{ "onsails/lspkind.nvim" },
 	{ -- Autocompletion
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"L3MON4D3/LuaSnip",
+			"hrsh7th/cmp-calc",
 			"saadparwaiz1/cmp_luasnip",
 		},
 		config = function()
 			-- nvim-cmp setup
 			local cmp = require("cmp")
+			local lspkind = require("lspkind")
 			local luasnip = require("luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip").filetype_extend("vue", { "vue" })
 			cmp.setup({
+				experimental = {
+					ghost_text = true,
+				},
+				formatting = {
+					format = lspkind.cmp_format({
+						mode = "symbol",
+						maxwidth = 50,
+						ellipsis_char = "...",
+						show_labelDetails = true,
+					}),
+				},
 				view = {
-					entries = "native",
+					entries = { name = "custom", selection_order = "near_cursor" },
 				},
 				snippet = {
 					expand = function(args)
@@ -315,16 +336,8 @@ require("lazy").setup({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "neorg" },
-					{
-						name = "spell",
-						option = {
-							keep_all_entries = false,
-							enable_in_context = function()
-								return true
-							end,
-							preselect_correct_word = true,
-						},
-					},
+					{ name = "calc" },
+					{ name = "npm", keyword_length = 4 },
 				},
 			})
 		end,
@@ -536,8 +549,38 @@ require("lazy").setup({
 	{
 		"olimorris/persisted.nvim",
 		lazy = true,
-		priority=60,
+		priority = 60,
 		autoload = true,
 		config = true,
+	},
+	{
+		"rachartier/tiny-code-action.nvim",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-telescope/telescope.nvim" },
+		},
+		event = "LspAttach",
+		config = function()
+			require("tiny-code-action").setup({
+				telescope_opts = {
+					layout_config = {
+						vertical = {
+							width = 0.7,
+							height = 0.9,
+							preview_cutoff = 1,
+							preview_height = function(_, _, max_lines)
+								local h = math.floor(max_lines * 0.5)
+								return math.max(h, 10)
+							end,
+						},
+					},
+				},
+			})
+		end,
+	},
+	{
+		"chrisgrieser/nvim-recorder",
+		dependencies = "rcarriga/nvim-notify", -- optional
+		opts = {}, -- required even with default settings, since it calls `setup()`
 	},
 })

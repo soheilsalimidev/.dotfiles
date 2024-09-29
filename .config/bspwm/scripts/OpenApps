@@ -47,7 +47,7 @@ WIDGET_DIR="$HOME/.config/bspwm/eww"
 			thunar
 			;;
 		--browser)
-			firefox
+			firefox-developer-edition
 			;;
 		--editor)
 			geany
