@@ -121,19 +121,17 @@ alias purga="sudo pacman -Rns $(pacman -Qtdq) ; sudo fstrim -av"
 alias update="paru -Syu --nocombinedupgrade"
 alias cl="clear"
 alias cd="z"
-alias vm-on="sudo systemctl start libvirtd.service"
-alias vm-off="sudo systemctl stop libvirtd.service"
 
+alias wireless="sshpass -p 09103502440  ssh admin@192.168.88.1 \"/ip firewall mangle set 3 new-routing-mark=\"Wireless\""\"
+alias adsl="sshpass -p 09103502440  ssh admin@192.168.88.1 \"/ip firewall mangle set 3 new-routing-mark=\"ADSL\""\"
 alias musica="ncmpcpp"
 alias med="sudo mkdir /run/media/arthur/Education -p &&  sudo mount /dev/sda6 /run/media/arthur/Education"
 alias ls='lsd -a --group-directories-first'
 alias ll='lsd -la --group-directories-first'
-# alias l='lvim'
 alias n='nvim'
 alias ..='cd ./..'
 alias ...='cd ./../..'
 alias ....='cd ./../../..'
-alias kil='ps -ef | fzf | awk '{print $2}' | xargs kill -9'
 
 #  ┌─┐┬ ┬┌┬┐┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌┬┐
 #  ├─┤│ │ │ │ │  └─┐ │ ├─┤├┬┘ │ 
@@ -244,3 +242,4 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 unsetopt BEEP
 eval "$(zoxide init zsh)"
+. "/home/arthur/.deno/env"

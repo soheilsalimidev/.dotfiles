@@ -47,3 +47,10 @@ vim.keymap.set("x", "<leader>bb", function()
 	vim.api.nvim_feedkeys(esc, "nx", false)
 	require("Comment.api").toggle.blockwise(vim.fn.visualmode())
 end)
+
+
+
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+
+

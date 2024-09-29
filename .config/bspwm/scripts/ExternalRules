@@ -54,7 +54,7 @@ result() {
 		Thunar)
 			result "state=pseudo_tiled desktop=^2 rectangle=966x576+0+0 follow=on"
 			;;
-		firefox|Navigator)
+		firefox-developer-edition|Navigator)
 			result "desktop=^3 follow=on"
 			;;
 		Transmission-gtk)
