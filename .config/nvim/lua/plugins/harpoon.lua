@@ -1,28 +1,24 @@
 local harpoon = require("harpoon")
+local harpoonEx = require("harpoonEx")
 
 harpoon:setup({})
+harpoon:extend(harpoonEx.extend())
 
-vim.keymap.set("n", "<leader>m", function() harpoon:list():add() end)
-vim.keymap.set("n", "<leader>ht", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+vim.keymap.set("n", "<leader>m", function()
+	harpoon:list():add()
+end)
 
--- basic telescope configuration
-local conf = require("telescope.config").values
-local function toggle_telescope(harpoon_files)
-    local file_paths = {}
-    for _, item in ipairs(harpoon_files.items) do
-        table.insert(file_paths, item.value)
-    end
-
-    require("telescope.pickers").new({}, {
-        prompt_title = "Harpoon",
-        finder = require("telescope.finders").new_table({
-            results = file_paths,
-        }),
-        previewer = conf.file_previewer({}),
-        sorter = conf.generic_sorter({}),
-    }):find()
-end
-
-vim.keymap.set("n", "<leader>sh", function() toggle_telescope(harpoon:list()) end,
-    { desc = "Open harpoon window" })
+vim.keymap.set("n", "<leader>sh", function()
+	require("telescope").extensions.harpoonEx.harpoonEx({
+		-- Optional: modify mappings, default mappings:
+		attach_mappings = function(_, map)
+			local actions = require("telescope").extensions.harpoonEx.actions
+			map({ "i", "n" }, "<leader>d", actions.delete_mark)
+			map({ "i", "n" }, "<leader>k", actions.move_mark_up)
+			map({ "i", "n" }, "<leader>j", actions.move_mark_down)
+			return true
+		end,
+	})
+	return true
+end, { desc = "Open harpoon window" })
 

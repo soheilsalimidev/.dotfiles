@@ -1,4 +1,3 @@
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.loaded_netrw = 1
@@ -22,6 +21,6 @@ require("plugins.trouble")
 require("plugins.zenmode")
 -- require("plugins.neogit")
 require('plugins.conform')
--- require("plugins.harpoon")
+require("plugins.harpoon")
 
 -- vim: ts=8 sts=2 sw=2 et

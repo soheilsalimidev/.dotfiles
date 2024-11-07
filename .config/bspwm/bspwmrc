@@ -103,5 +103,5 @@ clipcatd
 
 kdeconnect-cli -n "MI 9"
 
-spotify-launcher &
+spotify-launcher --skip-update &
 OpenApps --terminal

@@ -17,7 +17,9 @@ conform.setup({
 		lua = { "stylua" },
 		vue = { "prettier" },
 		python = { "isort", "black" },
-		prisma = { "prismals" , lsp_format = "fallback" },
+		prisma = { "prismals", lsp_format = "fallback" },
+		rust = { "rustfmt", lsp_format = "fallback" },
+		sql = { "sql_formatter", prepend_args = { "-c", '{"keywordCase": "language"}' } },
 	},
 })
 
