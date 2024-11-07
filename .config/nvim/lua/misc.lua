@@ -12,6 +12,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
-require("cmp").config.formatting = {
-  format = require("tailwindcss-colorizer-cmp").formatter
-}

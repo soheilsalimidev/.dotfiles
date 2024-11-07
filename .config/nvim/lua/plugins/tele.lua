@@ -1,6 +1,5 @@
--- require('telescope').load_extension('harpoon')
+require('telescope').load_extension('harpoon')
 -- require('telescope').load_extension('git_worktree')
-require("telescope").load_extension("persisted")
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({

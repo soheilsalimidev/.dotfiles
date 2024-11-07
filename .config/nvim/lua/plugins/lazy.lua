@@ -34,25 +34,11 @@ require("lazy").setup({
 			},
 		},
 	},
-	-- {
-	-- 	"ThePrimeagen/harpoon",
-	-- 	branch = "harpoon2",
-	-- 	dependencies = { "nvim-lua/plenary.nvim" },
-	-- },
-	-- {
-	--   "mistricky/codesnap.nvim",
-	--   build = "make",
-	-- },
-	-- {
-	-- 	"NeogitOrg/neogit",
-	-- 	lazy = false,
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim", -- required
-	-- 		"sindrets/diffview.nvim", -- optional - Diff integration
-	-- 		"nvim-telescope/telescope.nvim", -- optional
-	-- 	},
-	-- 	config = true,
-	-- },
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" , {"mike-jl/harpoonEx", opts = { reload_on_dir_change = true} } },
+	},
 	"onsails/lspkind.nvim",
 	{
 		"iamcco/markdown-preview.nvim",
@@ -199,7 +185,7 @@ require("lazy").setup({
 					override = {
 						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+						["cmp.entry.get_documentation"] = true,
 					},
 				},
 				routes = {
@@ -260,15 +246,6 @@ require("lazy").setup({
 			"j-hui/fidget.nvim",
 		},
 	},
-	{
-		"David-Kunz/cmp-npm",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		ft = "json",
-		config = function()
-			require("cmp-npm").setup({})
-		end,
-	},
-	{ "onsails/lspkind.nvim" },
 	{ -- Autocompletion
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -277,6 +254,9 @@ require("lazy").setup({
 			"L3MON4D3/LuaSnip",
 			"hrsh7th/cmp-calc",
 			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-cmdline",
 		},
 		config = function()
 			-- nvim-cmp setup
@@ -285,6 +265,7 @@ require("lazy").setup({
 			local luasnip = require("luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip").filetype_extend("vue", { "vue" })
+
 			cmp.setup({
 				experimental = {
 					ghost_text = true,
@@ -332,13 +313,15 @@ require("lazy").setup({
 						end
 					end, { "i", "s" }),
 				}),
-				sources = {
+				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
-					{ name = "neorg" },
+				}, {
+					{ name = "buffer" },
+					{ name = "vim-dadbod-completion" },
 					{ name = "calc" },
-					{ name = "npm", keyword_length = 4 },
-				},
+					{ name = "path" },
+				}),
 			})
 		end,
 	},
@@ -376,15 +359,6 @@ require("lazy").setup({
 	"nvim-telescope/telescope-symbols.nvim",
 	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
-	{
-		"folke/twilight.nvim",
-		ft = "markdown",
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-		},
-	},
 	{
 		"karb94/neoscroll.nvim",
 		event = "WinScrolled",
@@ -477,15 +451,6 @@ require("lazy").setup({
 		event = { "BufReadPre", "BufNewFile" },
 	},
 	{
-		"roobert/tailwindcss-colorizer-cmp.nvim",
-		-- optionally, override the default options:
-		config = function()
-			require("tailwindcss-colorizer-cmp").setup({
-				color_square_width = 2,
-			})
-		end,
-	},
-	{
 		"themaxmarchuk/tailwindcss-colors.nvim",
 		module = "tailwindcss-colors",
 		config = function()
@@ -545,13 +510,6 @@ require("lazy").setup({
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = { "rafamadriz/friendly-snippets" },
-	},
-	{
-		"olimorris/persisted.nvim",
-		lazy = true,
-		priority = 60,
-		autoload = true,
-		config = true,
 	},
 	{
 		"rachartier/tiny-code-action.nvim",

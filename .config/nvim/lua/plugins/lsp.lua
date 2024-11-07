@@ -54,14 +54,6 @@ local on_attach = function(_, bufnr)
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, "[W]orkspace [L]ist Folders")
 
-	-- Create a command `:Format` local to the LSP buffer
-	--vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-	-- if vim.lsp.buf.format then
-	--  vim.lsp.buf.format()
-	--elseif vim.lsp.buf.formatting then
-	-- vim.lsp.buf.formatting()
-	--end
-	--end, { desc = 'Format current buffer with LSP' })
 end
 
 -- Setup mason so it can manage external tooling
@@ -69,7 +61,7 @@ require("mason").setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { "rust_analyzer", "pyright", "tsserver", "volar", "lua_ls" }
+local servers = { "rust_analyzer", "pyright", "ts_ls", "volar", "lua_ls" }
 
 -- Ensure the servers above are installed
 require("mason-lspconfig").setup({
@@ -88,7 +80,7 @@ for _, lsp in ipairs(servers) do
 end
 
 -- Turn on lsp status information
-require("fidget").setup()
+require("fidget").setup({})
 
 -- Example custom configuration for lua
 --
@@ -130,7 +122,7 @@ require("lspconfig").tailwindcss.setup({
 	filetypes = { "css", "vue", "html" },
 })
 
-require("lspconfig").tsserver.setup({
+require("lspconfig").ts_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
@@ -204,22 +196,20 @@ require("lspconfig").rust_analyzer.setup({
 	},
 })
 
-require("lspconfig").gradle_ls.setup({
-	filetypes = { "gradle" },
+require("lspconfig").yamlls.setup({
+	filetypes = { "yml", "ymal" },
 })
+
+-- require("lspconfig").eslint.setup({
+-- 	filetypes = { "vue", "typescript", "javascript" },
+-- })
 
 -- require('lspconfig').java.setup {
 --   filetypes = { 'java' },
 -- }
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "sh",
-	callback = function()
-		vim.lsp.start({
-			name = "bash-language-server",
-			cmd = { "bash-language-server", "start" },
-		})
-	end,
+require("lspconfig").sqlls.setup({
+	filetypes = { "sql" },
 })
 
 require("lspconfig").prismals.setup({
