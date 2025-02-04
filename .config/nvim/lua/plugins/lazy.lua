@@ -17,6 +17,147 @@ vim.o.termguicolors = true
 
 require("lazy").setup({
 	{
+		"nvim-pack/nvim-spectre",
+		keys = {
+			{ "<F4>", "<cmd>SpectreWithCWD<cr>", mode = { "n" } },
+		},
+		config = function()
+			require("spectre").setup({ is_block_ui_break = true })
+		end,
+	},
+	{
+		"kiyoon/jupynium.nvim",
+		build = "pip3 install --user .",
+		config = function()
+			require("jupynium").setup({
+				python_host = { "conda", "run", "--no-capture-output", "-n", "jupynium", "python" },
+				default_notebook_URL = "localhost:8888/nbclassic",
+				jupyter_command = "jupyter",
+			})
+
+			-- You can link highlighting groups.
+			-- This is the default (when colour scheme is unknown)
+			-- Try with CursorColumn, Pmenu, Folded etc.
+			vim.cmd([[
+hi! link JupyniumCodeCellSeparator CursorLine
+hi! link JupyniumMarkdownCellSeparator CursorLine
+hi! link JupyniumMarkdownCellContent CursorLine
+hi! link JupyniumMagicCommand Keyword
+]])
+
+			-- Please share your favourite settings on other colour schemes, so I can add defaults.
+			-- Currently, tokyonight is supported.
+		end,
+	},
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				suggestion = { enabled = false },
+				panel = { enabled = false },
+			})
+		end,
+	},
+	{
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		lazy = false,
+		version = false,
+		opts = {
+			provider = "copilot",
+			opts = {
+				provider = "copilot",
+				vendors = {
+					hugg_deepseek = {
+						__inherited_from = "openai",
+						api_key_name = "HUGGINGFACE_KYE",
+						endpoint = "https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/v1/chat/completions",
+					},
+					hugg_quain = {
+						__inherited_from = "openai",
+						api_key_name = "HUGGINGFACE_KYE",
+						endpoint = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct/v1/chat/completions",
+					},
+				},
+				mappings = {
+					diff = {
+						ours = "co",
+						theirs = "ct",
+						all_theirs = "ca",
+						both = "cb",
+						cursor = "cc",
+						next = "]x",
+						prev = "[x",
+					},
+					suggestion = {
+						accept = "<M-l>",
+						next = "<M-]>",
+						prev = "<M-[>",
+						dismiss = "<C-]>",
+					},
+					jump = {
+						next = "]]",
+						prev = "[[",
+					},
+					submit = {
+						normal = "<CR>",
+						insert = "<C-s>",
+					},
+					sidebar = {
+						apply_all = "A",
+						apply_cursor = "a",
+						switch_windows = "<Tab>",
+						reverse_switch_windows = "<S-Tab>",
+					},
+				},
+				dual_boost = {
+					enabled = false,
+					first_provider = "hugg_quain",
+					second_provider = "copilot",
+					prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
+					timeout = 60000, -- Timeout in milliseconds
+				},
+			},
+			hints = { enabled = false },
+		},
+		build = "make",
+		dependencies = {
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			"zbirenbaum/copilot.lua", -- for providers='copilot'
+			{
+				-- support for image pasting
+				"HakonHarnes/img-clip.nvim",
+				event = "VeryLazy",
+				opts = {
+					-- recommended settings
+					default = {
+						embed_image_as_base64 = false,
+						prompt_for_file_name = false,
+						drag_and_drop = {
+							insert_mode = true,
+						},
+						-- required for Windows users
+						use_absolute_path = true,
+					},
+				},
+			},
+			{
+				-- Make sure to set this up properly if you have lazy=true
+				"MeanderingProgrammer/render-markdown.nvim",
+				opts = {
+					file_types = { "markdown", "Avante" },
+				},
+				ft = { "markdown", "Avante" },
+			},
+		},
+	},
+	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		opts = {
@@ -37,7 +178,7 @@ require("lazy").setup({
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" , {"mike-jl/harpoonEx", opts = { reload_on_dir_change = true} } },
+		dependencies = { "nvim-lua/plenary.nvim", { "mike-jl/harpoonEx", opts = { reload_on_dir_change = true } } },
 	},
 	"onsails/lspkind.nvim",
 	{
@@ -314,6 +455,7 @@ require("lazy").setup({
 					end, { "i", "s" }),
 				}),
 				sources = cmp.config.sources({
+					{ name = "copilot", group_index = 2 },
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 				}, {
@@ -326,6 +468,12 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
+	},
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
