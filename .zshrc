@@ -128,7 +128,6 @@ alias musica="ncmpcpp"
 alias med="sudo mkdir /run/media/arthur/Education -p &&  sudo mount /dev/sda6 /run/media/arthur/Education"
 alias ls='lsd -a --group-directories-first'
 alias ll='lsd -la --group-directories-first'
-alias n='nvim'
 alias ..='cd ./..'
 alias ...='cd ./../..'
 alias ....='cd ./../../..'
@@ -191,11 +190,6 @@ function proxy_on(){
      # npm config set strict-ssl false
      # npm config set registry "http://registry.npmjs.org/"
    fi
-
-   proxy_show
-   echo -e "\nProxy-related environment variables set."
-
-   # clear
 }
 
 # Enable proxy settings immediately
@@ -225,9 +219,6 @@ function proxy_off(){
      # npm config set strict-ssl false
      # npm config set registry "http://registry.npmjs.org/"
    fi
-
-   proxy_show
-   echo -e "\nProxy-related environment variables removed."
 }
 
 export PATH=$PATH:/home/arthur/.spicetify
@@ -243,3 +234,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 unsetopt BEEP
 eval "$(zoxide init zsh)"
 . "/home/arthur/.deno/env"
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh) # add autocomplete permanently to your zsh shell
+
+
+
+alias n='proxy_on; nvim ; proxy_off;'
+source /home/arthur/.dotfiles/.env
+
