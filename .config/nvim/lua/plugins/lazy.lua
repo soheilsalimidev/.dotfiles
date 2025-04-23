@@ -26,138 +26,6 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"kiyoon/jupynium.nvim",
-		build = "pip3 install --user .",
-		config = function()
-			require("jupynium").setup({
-				python_host = { "conda", "run", "--no-capture-output", "-n", "jupynium", "python" },
-				default_notebook_URL = "localhost:8888/nbclassic",
-				jupyter_command = "jupyter",
-			})
-
-			-- You can link highlighting groups.
-			-- This is the default (when colour scheme is unknown)
-			-- Try with CursorColumn, Pmenu, Folded etc.
-			vim.cmd([[
-hi! link JupyniumCodeCellSeparator CursorLine
-hi! link JupyniumMarkdownCellSeparator CursorLine
-hi! link JupyniumMarkdownCellContent CursorLine
-hi! link JupyniumMagicCommand Keyword
-]])
-
-			-- Please share your favourite settings on other colour schemes, so I can add defaults.
-			-- Currently, tokyonight is supported.
-		end,
-	},
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "InsertEnter",
-		config = function()
-			require("copilot").setup({
-				suggestion = { enabled = false },
-				panel = { enabled = false },
-			})
-		end,
-	},
-	{
-		"yetone/avante.nvim",
-		event = "VeryLazy",
-		lazy = false,
-		version = false,
-		opts = {
-			provider = "copilot",
-			opts = {
-				provider = "copilot",
-				vendors = {
-					hugg_deepseek = {
-						__inherited_from = "openai",
-						api_key_name = "HUGGINGFACE_KYE",
-						endpoint = "https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/v1/chat/completions",
-					},
-					hugg_quain = {
-						__inherited_from = "openai",
-						api_key_name = "HUGGINGFACE_KYE",
-						endpoint = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct/v1/chat/completions",
-					},
-				},
-				mappings = {
-					diff = {
-						ours = "co",
-						theirs = "ct",
-						all_theirs = "ca",
-						both = "cb",
-						cursor = "cc",
-						next = "]x",
-						prev = "[x",
-					},
-					suggestion = {
-						accept = "<M-l>",
-						next = "<M-]>",
-						prev = "<M-[>",
-						dismiss = "<C-]>",
-					},
-					jump = {
-						next = "]]",
-						prev = "[[",
-					},
-					submit = {
-						normal = "<CR>",
-						insert = "<C-s>",
-					},
-					sidebar = {
-						apply_all = "A",
-						apply_cursor = "a",
-						switch_windows = "<Tab>",
-						reverse_switch_windows = "<S-Tab>",
-					},
-				},
-				dual_boost = {
-					enabled = false,
-					first_provider = "hugg_quain",
-					second_provider = "copilot",
-					prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
-					timeout = 60000, -- Timeout in milliseconds
-				},
-			},
-			hints = { enabled = false },
-		},
-		build = "make",
-		dependencies = {
-			"stevearc/dressing.nvim",
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"zbirenbaum/copilot.lua", -- for providers='copilot'
-			{
-				-- support for image pasting
-				"HakonHarnes/img-clip.nvim",
-				event = "VeryLazy",
-				opts = {
-					-- recommended settings
-					default = {
-						embed_image_as_base64 = false,
-						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
-						-- required for Windows users
-						use_absolute_path = true,
-					},
-				},
-			},
-			{
-				-- Make sure to set this up properly if you have lazy=true
-				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
-			},
-		},
-	},
-	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		opts = {
@@ -175,11 +43,6 @@ hi! link JupyniumMagicCommand Keyword
 			},
 		},
 	},
-	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim", { "mike-jl/harpoonEx", opts = { reload_on_dir_change = true } } },
-	},
 	"onsails/lspkind.nvim",
 	{
 		"iamcco/markdown-preview.nvim",
@@ -190,9 +53,6 @@ hi! link JupyniumMagicCommand Keyword
 		end,
 	},
 	"preservim/vim-pencil",
-	"folke/zen-mode.nvim",
-	-- "tpope/vim-obsession",
-	-- Tree
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
@@ -207,7 +67,6 @@ hi! link JupyniumMagicCommand Keyword
 			require("alpha").setup(require("alpha.themes.dashboard").config)
 		end,
 	},
-	-- "ThePrimeagen/git-worktree.nvim",
 	{
 		"kylechui/nvim-surround",
 		version = "*",
@@ -217,32 +76,6 @@ hi! link JupyniumMagicCommand Keyword
 		end,
 	},
 	"xiyaowong/nvim-transparent",
-	{
-		"rmagatti/goto-preview",
-		config = function()
-			require("goto-preview").setup({
-				width = 120, -- Width of the floating window
-				height = 15, -- Height of the floating window
-				border = { "↖", "─", "┐", "│", "┘", "─", "└", "│" }, -- Border characters of the floating window
-				default_mappings = true,
-				debug = false, -- Print debug information
-				opacity = nil, -- 0-100 opacity level of the floating window where 100 is fully transparent.
-				resizing_mappings = false, -- Binds arrow keys to resizing the floating window.
-				post_open_hook = nil, -- A function taking two arguments, a buffer and a window to be ran as a hook.
-				references = { -- Configure the telescope UI for slowing the references cycling window.
-					telescope = require("telescope.themes").get_dropdown({ hide_preview = false }),
-				},
-				-- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
-				focus_on_open = true, -- Focus the floating window when opening it.
-				dismiss_on_move = false, -- Dismss the floating window when moving the cursor.
-				force_close = true, -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
-				bufhidden = "wipe", -- the bufhidden option to set on the floating window. See :h bufhidden
-				stack_floating_preview_windows = true, -- Whether to nest floating windows
-				preview_window_title = { enable = true, position = "left" }, -- Whether
-			})
-		end,
-	},
-
 	{
 		"folke/trouble.nvim",
 		lazy = false,
@@ -360,7 +193,7 @@ hi! link JupyniumMagicCommand Keyword
 		},
 	},
 
-	"ray-x/go.nvim",
+	-- "ray-x/go.nvim",
 	"ray-x/guihua.lua",
 	{
 		"folke/tokyonight.nvim",
@@ -467,13 +300,6 @@ hi! link JupyniumMagicCommand Keyword
 			})
 		end,
 	},
-
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	},
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
@@ -484,11 +310,6 @@ hi! link JupyniumMagicCommand Keyword
 		},
 	},
 
-	{
-		"rcarriga/nvim-dap-ui",
-		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-	},
-	"theHamsta/nvim-dap-virtual-text",
 
 	-- Git related plugins
 	"tpope/vim-fugitive",
@@ -541,15 +362,6 @@ hi! link JupyniumMagicCommand Keyword
 		},
 	},
 	{
-		"themaxmarchuk/tailwindcss-colors.nvim",
-		-- load only on require("tailwindcss-colors")
-		-- run the setup function after plugin is loaded
-		config = function()
-			-- pass config options here (or nothing to use defaults)
-			require("tailwindcss-colors").setup()
-		end,
-	},
-	{
 		"Pocco81/auto-save.nvim",
 		config = function()
 			require("auto-save").setup({
@@ -579,7 +391,6 @@ hi! link JupyniumMagicCommand Keyword
 			-- insert_at_start = true,
 			-- …etc.
 		},
-		version = "^1.0.0", -- optional: only update when a new 1.x version is released
 	},
 	{
 		"numToStr/Comment.nvim",
@@ -597,31 +408,6 @@ hi! link JupyniumMagicCommand Keyword
 	{
 		"stevearc/conform.nvim",
 		event = { "BufReadPre", "BufNewFile" },
-	},
-	{
-		"themaxmarchuk/tailwindcss-colors.nvim",
-		module = "tailwindcss-colors",
-		config = function()
-			require("tailwindcss-colors").setup()
-		end,
-	},
-	"tpope/vim-dadbod",
-	{
-		"kristijanhusak/vim-dadbod-ui",
-		dependencies = {
-			{ "tpope/vim-dadbod", lazy = true },
-			{ "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true }, -- Optional
-		},
-		cmd = {
-			"DBUI",
-			"DBUIToggle",
-			"DBUIAddConnection",
-			"DBUIFindBuffer",
-		},
-		init = function()
-			-- Your DBUI configuration
-			vim.g.db_ui_use_nerd_fonts = 1
-		end,
 	},
 	{
 		"windwp/nvim-ts-autotag",
@@ -644,17 +430,23 @@ hi! link JupyniumMagicCommand Keyword
 			})
 		end,
 	},
-	{
-		"willothy/moveline.nvim",
-		build = "make",
-		config = function()
-			local moveline = require("moveline")
-			vim.keymap.set("n", "<A-k>", moveline.up)
-			vim.keymap.set("n", "<A-j>", moveline.down)
-			vim.keymap.set("v", "<A-k>", moveline.block_up)
-			vim.keymap.set("v", "<A-j>", moveline.block_down)
-		end,
-	},
+{ 
+    'fedepujol/move.nvim',
+				config = function()
+		require('move').setup({})
+		local opts = { noremap = true, silent = true }
+-- Normal-mode commands
+vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
+vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
+vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
+vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
+
+-- Visual-mode commands
+vim.keymap.set('v', '<A-j>', ':MoveBlock(1)<CR>', opts)
+vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
+		end
+
+},
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = { "rafamadriz/friendly-snippets" },

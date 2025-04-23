@@ -8,7 +8,6 @@
 export VISUAL="${EDITOR}"
 export EDITOR='lvim'
 export TERMINAL='alacritty'
-export BROWSER='firefox'
 export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
 
 if [ -d "$HOME/.local/bin" ] ;
@@ -53,10 +52,11 @@ bindkey "^I" expand-or-complete-with-dots
 #  ┬ ┬┬┌─┐┌┬┐┌─┐┬─┐┬ ┬
 #  ├─┤│└─┐ │ │ │├┬┘└┬┘
 #  ┴ ┴┴└─┘ ┴ └─┘┴└─ ┴ 
-HISTFILE=~/.config/zsh/zhistory
+setopt SHARE_HISTORY
+HISTFILE=$HOME/.zhistory
 HISTSIZE=5000
 SAVEHIST=5000
-
+setopt HIST_EXPIRE_DUPS_FIRST
 #  ┌─┐┌─┐┬ ┬  ┌─┐┌─┐┌─┐┬    ┌─┐┌─┐┌┬┐┬┌─┐┌┐┌┌─┐
 #  ┌─┘└─┐├─┤  │  │ ││ ││    │ │├─┘ │ ││ ││││└─┐
 #  └─┘└─┘┴ ┴  └─┘└─┘└─┘┴─┘  └─┘┴   ┴ ┴└─┘┘└┘└─┘
@@ -80,14 +80,11 @@ function dir_icon {
   fi
 }
 
-PS1='%B%F{blue}%f%b  %B%F{magenta}%n%f%b $(dir_icon)  %B%F{red}%~%f%b${vcs_info_msg_0_} %(?.%B%F{green}.%F{red})%f%b '
+PS1='%B%F{blue}󱄅%f%b  %B%F{magenta}%n%f%b $(dir_icon)  %B%F{red}%~%f%b${vcs_info_msg_0_} %(?.%B%F{green}.%F{red})%f%b '
 
 #  ┌─┐┬  ┬ ┬┌─┐┬┌┐┌┌─┐
 #  ├─┘│  │ ││ ┬││││└─┐
 #  ┴  ┴─┘└─┘└─┘┴┘└┘└─┘
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source <(fzf --zsh)
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -113,11 +110,11 @@ fi
 #  ┌─┐┬  ┬┌─┐┌─┐
 #  ├─┤│  │├─┤└─┐
 #  ┴ ┴┴─┘┴┴ ┴└─┘
-alias mirrors="sudo reflector --verbose --latest 5 --country 'Iran' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
+# alias mirrors="sudo reflector --verbose --latest 5 --country 'Iran' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
 
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias mantenimiento="yay -Sc && sudo pacman -Scc"
-alias purga="sudo pacman -Rns $(pacman -Qtdq) ; sudo fstrim -av"
+# alias mantenimiento="yay -Sc && sudo pacman -Scc"
+# alias purga="sudo pacman -Rns $(pacman -Qtdq) ; sudo fstrim -av"
 alias update="paru -Syu --nocombinedupgrade"
 alias cl="clear"
 alias cd="z"
@@ -143,7 +140,6 @@ if [[ -z "$TMUX" ]] ;  then
         exec tmux
     fi
 fi
-$HOME/.local/bin/colorscript -r
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -233,11 +229,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 unsetopt BEEP
 eval "$(zoxide init zsh)"
-. "/home/arthur/.deno/env"
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh) # add autocomplete permanently to your zsh shell
-
-
+eval "$(direnv hook zsh)"
 
 alias n='proxy_on; nvim ; proxy_off;'
-source /home/arthur/.dotfiles/.env
 

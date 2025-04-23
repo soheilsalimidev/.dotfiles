@@ -61,7 +61,7 @@ require("mason").setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { "rust_analyzer", "pyright", "ts_ls", "volar", "lua_ls" }
+local servers = { "rust_analyzer", "pyright", "ts_ls", "volar" }
 
 -- Ensure the servers above are installed
 require("mason-lspconfig").setup({
@@ -114,12 +114,21 @@ require("lspconfig").lua_ls.setup({
 })
 
 require("lspconfig").tailwindcss.setup({
-	on_attach = function(_, bufnr)
-		require("tailwindcss-colors").buf_attach(bufnr)
-		on_attach(bufnr)
-	end,
+	on_attach = on_attach,
 	capabilities = capabilities,
 	filetypes = { "css", "vue", "html" },
+})
+
+require("lspconfig").hyprls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	filetypes = { "conf"},
+})
+
+require("lspconfig").nil_ls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	filetypes = { "nix"},
 })
 
 require("lspconfig").ts_ls.setup({
