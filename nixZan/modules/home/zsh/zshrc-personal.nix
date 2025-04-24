@@ -66,16 +66,16 @@
     alias ....='cd ./../../..'
 
     function xterm_title_precmd () {
-        local truncated_path=$(print -P "%60<...<%~")
-        print -Pn -- '\e]2;''${truncated_path}\a'
-        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{B}''${truncated_path}\005{-}\e\\'
+        local simplified_path=$(print -P "%~" | sed -E 's/([^\/])[^\/]*\//\1\//g')
+        print -Pn -- '\e]2;''${simplified_path}\a'
+        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{B}''${simplified_path}\005{-}\e\\'
     }
 
     function xterm_title_preexec () {
-        local truncated_path=$(print -P "%40<...<%~")
+        local simplified_path=$(print -P "%~" | sed -E 's/([^\/])[^\/]*\//\1\//g')
         local truncated_cmd=$(echo "$1" | cut -c1-30)
-        print -Pn -- '\e]2;''${truncated_path} → ''${truncated_cmd}\a'
-        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{B}''${truncated_path}\005{-} → ''${truncated_cmd}\e\\'; }
+        print -Pn -- '\e]2;''${simplified_path} → ''${truncated_cmd}\a'
+        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{B}''${simplified_path}\005{-} → ''${truncated_cmd}\e\\'; }
     }
 
     if [[ "$TERM" == (kitty*|alacritty*|termite*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then

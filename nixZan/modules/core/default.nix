@@ -24,39 +24,5 @@
     inputs.stylix.nixosModules.stylix
   ];
   environment.systemPackages = with pkgs; [
-    inputs.zen-browser.packages."x86_64-linux".default
-    audacity
-    nodejs
-    obs-studio
-    handbrake
-    yt-dlp
-    zip
-    vscode
-    nwg-displays
-    nwg-look
-    gnumake
-    pnpm
-    alacritty
-    stow
-    tmux
-    zoxide
-    telegram-desktop
-    v2raya
-    ripgrep
-    fd
-    rustup
-    lsd
-    go
-    lua-language-server
-    gcc
-    nwg-displays
-    luarocks
-    postgresql
-    beekeeper-studio
-    vscode.fhs
-    openfortivpn
-    nix-index
-    fzf
-    neovim
   ];
 }

@@ -2,6 +2,31 @@
 let
   betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
   inherit (import ../../../hosts/${host}/variables.nix) clock24h;
+  colors = import ../../../lib/colors.nix { nixpkgs-lib = lib; };
+  
+  # Define alpha values for better contrast
+  alpha = "0.3";
+  alphaHover = "0.35";
+  
+  # Function to create rgba string using the new color module
+  mkRGBA = hex: let
+    rgb = colors.hexToRGB (lib.removePrefix "#" hex);
+  in "rgba(${toString (builtins.elemAt rgb 0)}, ${toString (builtins.elemAt rgb 1)}, ${toString (builtins.elemAt rgb 2)}, ${alpha})";
+
+  mkRGBAHover = hex: let
+    rgb = colors.hexToRGB (lib.removePrefix "#" hex);
+  in "rgba(${toString (builtins.elemAt rgb 0)}, ${toString (builtins.elemAt rgb 1)}, ${toString (builtins.elemAt rgb 2)}, ${alphaHover})";
+
+  # Define common styles for components
+  commonStyle = ''
+    padding: 2px 8px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    transition: ${betterTransition};
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  '';
+
 in with lib; {
   # Configure & Theme Waybar
   programs.waybar = {
@@ -177,10 +202,12 @@ in with lib; {
       }
 
       window#waybar {
-          background: transparent;
+          background: linear-gradient(rgba(30, 30, 46, 0.4), rgba(30, 30, 46, 0.6));
           color: #cdd6f4;
           margin: 4px 0;
-          padding: 0;
+          padding: 0 8px;
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       /* ======================= */
@@ -211,12 +238,9 @@ in with lib; {
       }
 
       #hyprland-workspaces button {
+          ${commonStyle}
           padding: 0 12px;
-          margin: 0 2px;
-          color: #6c7086;
-          font-size: 14px;
-          border-radius: 8px;
-          transition: all 0.3s ease;
+          font-weight: 500;
       }
 
       #hyprland-workspaces button.active {
@@ -249,207 +273,136 @@ in with lib; {
       }
 
       /* ======================= */
+      /* Component Base Styling  */
+      /* ======================= */
+      #clock, #cpu, #memory, #battery, #temperature,
+      #pulseaudio, #backlight, #tray, #custom-exit,
+      #custom-notification, #mpris {
+          ${commonStyle}
+          background: linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+      }
+
+      /* Component hover effects */
+      #clock:hover, #cpu:hover, #memory:hover,
+      #battery:hover, #temperature:hover,
+      #pulseaudio:hover, #backlight:hover,
+      #custom-exit:hover, #custom-notification:hover {
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          background: linear-gradient(45deg, rgba(203, 166, 247, 0.15), rgba(203, 166, 247, 0.05));
+      }
+
+      /* ======================= */
       /* System Components       */
       /* ======================= */
       #clock {
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
-          color: #e5e0cf;
-          background: rgba(137, 180, 250, 0.2);
-          font-weight: 500;
-          transition: all 0.3s ease;
+          color: #${config.lib.stylix.colors.base0D};
+          background: ${mkRGBA config.lib.stylix.colors.base0D};
       }
-
       #clock:hover {
-          background: rgba(137, 180, 250, 0.2);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          background: ${mkRGBAHover config.lib.stylix.colors.base0D};
       }
 
       #cpu {
-          color: #74c7ec;
-          background: rgba(116, 199, 236, 0.2);
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
+          color: #${config.lib.stylix.colors.base0C};
+          background: ${mkRGBA config.lib.stylix.colors.base0C};
+      }
+      #cpu:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base0C};
       }
 
       #memory {
-          color: #89dceb;
-          background: rgba(137, 220, 235, 0.2);
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
+          color: #${config.lib.stylix.colors.base0D};
+          background: ${mkRGBA config.lib.stylix.colors.base0D};
+      }
+      #memory:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base0D};
       }
 
       #battery {
-          color: #a6e3a1;
-          background: rgba(166, 227, 161, 0.2);
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
+          color: #${config.lib.stylix.colors.base0B};
+          background: ${mkRGBA config.lib.stylix.colors.base0B};
+      }
+      #battery:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base0B};
       }
 
       #temperature {
-          color: #f5c2e7;
-          background: rgba(245, 194, 231, 0.2);
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
-          transition: all 0.3s ease;
+          color: #${config.lib.stylix.colors.base0E};
+          background: ${mkRGBA config.lib.stylix.colors.base0E};
+      }
+      #temperature:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base0E};
       }
 
       #temperature.critical {
-          color: #f38ba8;
-          background: rgba(243, 139, 168, 0.2);
+          color: #${config.lib.stylix.colors.base08};
+          background: ${mkRGBA config.lib.stylix.colors.base08};
+      }
+      #temperature.critical:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base08};
       }
 
-      /* ======================= */
-      /* Audio Controls          */
-      /* ======================= */
       #pulseaudio {
-          color: #fab387;
-          background: rgba(250, 179, 135, 0.2);
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
+          color: #${config.lib.stylix.colors.base09};
+          background: ${mkRGBA config.lib.stylix.colors.base09};
+      }
+      #pulseaudio:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base09};
       }
 
-      #pulseaudio.microphone {
-          color: #94e2d5;
-          background: rgba(148, 226, 213, 0.2);
-      }
-
-
-      /* #pulseaudio.source.muted {
-          color: #f38ba8;
-          background: rgba(243, 139, 168, 0.1);
-      } */
-
-      #pulseaudio.microphone.source-muted {
-          color: #f38ba8;
-          background: rgba(243, 139, 168, 0.2);
-      }
-
-      /* ======================= */
-      /* Hardware Controls       */
-      /* ======================= */
       #backlight {
-          color: #cba6f7;
-          background: rgba(203, 166, 247, 0.2);
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
+          color: #${config.lib.stylix.colors.base0E};
+          background: ${mkRGBA config.lib.stylix.colors.base0E};
+      }
+      #backlight:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base0E};
       }
 
       /* ======================= */
       /* System Indicators       */
       /* ======================= */
       #tray {
-          background: rgba(180, 190, 254, 0.2);
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
+          background: ${mkRGBA config.lib.stylix.colors.base07};
+          padding: 2px 6px;
       }
 
       #custom-exit {
-          color: rgb(236, 0, 63);
-          background: rgba(255, 161, 173 , 0.2);
-          margin: 0 4px;
-          padding: 0 12px;
-          border-radius: 8px;
+          color: #${config.lib.stylix.colors.base08};
+          background: ${mkRGBA config.lib.stylix.colors.base08};
+          border: 1px solid rgba(243, 139, 168, 0.2);
+      }
+      #custom-exit:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base08};
       }
 
       #custom-notification {
-          color: rgb(21, 93, 252);
-          background: rgba(142, 197, 255, 0.2);
-          margin: 0 4px;
-          padding: 0 12px;
-          border-radius: 8px;
-          transition: all 0.3s ease;
+          color: #${config.lib.stylix.colors.base0D};
+          background: ${mkRGBA config.lib.stylix.colors.base0D};
+          border: 1px solid rgba(137, 180, 250, 0.2);
+      }
+      #custom-notification:hover {
+          background: ${mkRGBAHover config.lib.stylix.colors.base0D};
       }
 
-      #custom-arch {
-          color: #e5e0cf;
-          background: rgba(137, 180, 250, 0.2);
-          padding: 0 14px;
-          margin: 0 4px;
-          border-radius: 8px;
-          transition: all 0.3s ease;
-      }
-
-      #custom-arch:hover,
-      #pulseaudio:hover,
-      #backlight:hover,
-      #custom-exit:hover,
-      #custom-update:hover,
-      #pulseaudio.microphone:hover {
-          opacity: 0.8;
-      }
-
-      #hyprland-workspaces button:hover,
-      #workspaces button:hover {
-          transition: all 0.3s ease;
-          opacity: 0.8;
-      }
-
-      /* Media Player */
-      /* #custom-media {
-        color: #b4befe;
-        padding: 0 12px;
-        margin: 0 4px;
-        border-radius: 8px;
-        background: rgba(180, 190, 254, 0.1);
-        transition: all 0.3s ease;
-        min-width: 100px;
-        font-style: italic;
-      }
-
-      #custom-media:hover {
-        background: rgba(180, 190, 254, 0.2);
-      }
-
-      #custom-media.Playing {
-        color: #a6e3a1;
-        background: rgba(166, 227, 161, 0.1);
-      }
-
-      #custom-media.Paused {
-        color: #f9e2af;
-        background: rgba(249, 226, 175, 0.1);
-      } */
-
-
-      /* Media Player */
       #mpris {
-          color: #b4befe;
-          padding: 0 12px;
-          margin: 0 4px;
-          border-radius: 8px;
-          background: rgba(180, 190, 254, 0.1);
-          transition: all 0.3s ease;
-          min-width: 100px;
-      }
-
-      #mpris:hover {
-          background: rgba(180, 190, 254, 0.2);
-
+          color: #${config.lib.stylix.colors.base07};
+          background: ${mkRGBA config.lib.stylix.colors.base07};
       }
 
       #mpris.playing {
-          color: #a6e3a1;
-          background: rgba(166, 227, 161, 0.1);
-
+          color: #${config.lib.stylix.colors.base0B};
+          background: ${mkRGBA config.lib.stylix.colors.base0B};
       }
 
       #mpris.paused {
-          color: #f9e2af;
-          background: rgba(249, 226, 175, 0.1);
+          color: #${config.lib.stylix.colors.base0A};
+          background: ${mkRGBA config.lib.stylix.colors.base0A};
       }
 
       #mpris.stopped {
-          color: #6c7086;
-          background: rgba(249, 226, 175, 0.1);
+          color: #${config.lib.stylix.colors.base04};
+          background: ${mkRGBA config.lib.stylix.colors.base04};
       }
     ''];
   };

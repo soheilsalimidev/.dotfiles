@@ -56,7 +56,9 @@ in {
         "killall -q swaync;sleep .5 && swaync"
         "nm-applet --indicator"
         "pypr &"
-        "sleep 1.5 && swww img ${stylixImage}"
+        "sleep 1.5 && wallsetter"
+        "alacritty"
+        "spotify"
       ];
 
       input = {

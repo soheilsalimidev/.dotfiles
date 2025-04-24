@@ -9,7 +9,7 @@
       enable = true;
       extraArgs = "--keep-since 7d --keep 5";
     };
-    flake = "/home/arthur/.dotfiles/nixZan/";
+    # flake = "/home/arthur/.dotfiles/nixZan/#nvidia-laptop";
   };
 
   environment.systemPackages = with pkgs; [

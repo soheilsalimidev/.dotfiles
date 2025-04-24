@@ -1,34 +1,37 @@
-{
-  pkgs,
-  host,
-  ...
-}: let
-  inherit (import ../../hosts/${host}/variables.nix) stylixImage;
+{ pkgs, host, ... }:
+let inherit (import ../../hosts/${host}/variables.nix) stylixImage;
 in {
   # Styling Options
   stylix = {
     enable = true;
-    image = stylixImage;
-    # base16Scheme = {
-    #   base00 = "282936";
-    #   base01 = "3a3c4e";
-    #   base02 = "4d4f68";
-    #   base03 = "626483";
-    #   base04 = "62d6e8";
-    #   base05 = "e9e9f4";
-    #   base06 = "f1f2f8";
-    #   base07 = "f7f7fb";
-    #   base08 = "ea51b2";
-    #   base09 = "b45bcf";
-    #   base0A = "00f769";
-    #   base0B = "ebff87";
-    #   base0C = "a1efe4";
-    #   base0D = "62d6e8";
-    #   base0E = "b45bcf";
-    #   base0F = "00f769";
-    # };
+    base16Scheme = {
+      base00 = "303446"; # base
+      base01 = "292c3c"; # mantle
+      base02 = "414559"; # surface0
+      base03 = "51576d"; # surface1
+      base04 = "626880"; # surface2
+      base05 = "c6d0f5"; # text
+      base06 = "f2d5cf"; # rosewater
+      base07 = "babbf1"; # lavender
+      base08 = "e78284"; # red
+      base09 = "ef9f76"; # peach
+      base0A = "e5c890"; # yellow
+      base0B = "a6d189"; # green
+      base0C = "81c8be"; # teal
+      base0D = "8caaee"; # blue
+      base0E = "ca9ee6"; # mauve
+      base0F = "eebebe"; # flamingo
+      base10 = "292c3c"; # mantle - darker background
+      base11 = "232634"; # crust - darkest background
+      base12 = "ea999c"; # maroon - bright red
+      base13 = "f2d5cf"; # rosewater - bright yellow
+      base14 = "a6d189"; # green - bright green
+      base15 = "99d1db"; # sky - bright cyan
+      base16 = "85c1dc"; # sapphire - bright blue
+      base17 = "f4b8e4"; # pink - bright purple
+    };
     polarity = "dark";
-    opacity.terminal = 1.0;
+    opacity.terminal = 0.8;
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";

@@ -84,6 +84,11 @@ in {
       ",XF86AudioPrev, exec, playerctl previous"
       ",XF86MonBrightnessDown,exec,brightnessctl set 5%-"
       ",XF86MonBrightnessUp,exec,brightnessctl set +5%"
+
+      # Monitor management bindings
+      "ALT SHIFT,1,exec,hyprctl keyword monitor eDP-1,preferred,auto,1"
+      "ALT SHIFT,2,exec,hyprctl keyword monitor HDMI-A-1,preferred,auto,1"
+      "ALT SHIFT,3,exec,hyprctl keyword monitor eDP-1,preferred,auto,1;hyprctl keyword monitor HDMI-A-1,preferred,right,1"
     ];
 
     bindm = [

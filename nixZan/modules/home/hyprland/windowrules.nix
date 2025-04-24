@@ -4,6 +4,9 @@ in {
   wayland.windowManager.hyprland = {
     settings = {
       windowrulev2 = [
+        # Workspace assignments
+      
+
         "tag +file-manager, class:^([Tt]hunar|org.gnome.Nautilus|[Pp]cmanfm-qt)$"
         "tag +terminal, class:^(Alacritty|kitty|kitty-dropterm)$"
         "tag +browser, class:^(Brave-browser(-beta|-dev|-unstable)?|zen-beta)$"
@@ -32,6 +35,8 @@ in {
         "tag +settings, class:(.blueman-manager-wrapped)"
         "tag +settings, class:(nwg-displays)"
         "move 72% 7%,title:^(Picture-in-Picture)$"
+        "workspace 2 silent, tag:browser*"
+        "workspace 6 silent, class:^(spotify)$"
         "center, class:^([Ff]erdium)$"
         "float, class:^([Ww]aypaper)$"
         "center, class:^(pavucontrol|org.pulseaudio.pavucontrol|com.saivert.pwvucontrol)$"

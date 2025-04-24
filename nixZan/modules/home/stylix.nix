@@ -7,7 +7,7 @@ _: {
     ghostty.enable = false;
     qt.enable = true;
     spicetify.enable = false;
-    tmux.enable = false;
-    alacritty.enable = false;
+    tmux.enable = true;
+    alacritty.enable = true;
   };
 }
