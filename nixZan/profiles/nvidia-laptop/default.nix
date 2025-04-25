@@ -10,6 +10,6 @@ in {
     intelBusID = "${intelID}";
     nvidiaBusID = "${nvidiaID}";
   };
-  drivers.intel.enable = false;
+  drivers.intel.enable = true;
   vm.guest-services.enable = false;
 }
