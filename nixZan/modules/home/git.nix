@@ -7,8 +7,9 @@ in {
     userEmail = "${gitEmail}";
     extraConfig = {
       commit.gpgsign = true;
-      gpg.format = "ssh";
-      user.signingkey = "~/.ssh/id_rsa.pub";
+      tag.gpgSign = true;
+      gpg.format = "openpgp";
+      user.signingkey = "154B407A046883ED";
     };
   };
 }
