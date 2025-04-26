@@ -159,6 +159,15 @@
        fi
     }
 
+    function y() {
+            local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+            yazi "$@" --cwd-file="$tmp"
+            if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+                    builtin cd -- "$cwd"
+            fi
+            rm -f -- "$tmp"
+    }
+
     export FZF_DEFAULT_OPTS=" \
     --color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284 \
     --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \

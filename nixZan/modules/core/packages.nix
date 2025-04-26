@@ -20,7 +20,9 @@
 
   environment.systemPackages = with pkgs; [
     acpi
+    ueberzugpp
     sshpass
+    epson-escpr
     appimage-run # Needed For AppImage Support
     brightnessctl # For Screen Brightness Control
     cliphist # Clipboard manager using rofi menu

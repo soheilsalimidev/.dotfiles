@@ -57,6 +57,9 @@
       set -g status-right "#{E:@catppuccin_status_application}"
       set -ag status-right "#{E:@catppuccin_status_session}"
       set -ag status-right "#{E:@catppuccin_status_uptime}"
+      set -g allow-passthrough on
+      set -ga update-environment TERM
+      set -ga update-environment TERM_PROGRAM
     '';
   };
 }
