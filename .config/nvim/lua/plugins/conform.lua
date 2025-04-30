@@ -11,7 +11,7 @@ conform.setup({
 		html = { "dprint" },
 		json = { "dprint" },
 		yaml = { "dprint" },
-		markdown = { "dprint" },
+		markdown = { "prettierd" },
 		graphql = { "dprint" },
 		liquid = { "prettier" },
 		lua = { lsp_format = true },

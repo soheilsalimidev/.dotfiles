@@ -8,8 +8,14 @@ require('nvim-treesitter.configs').setup {
     'html', 'css', 'javascript', 'yaml', 'json', 'toml', 'vue'
   },
 
-  highlight = { enable = true },
+  highlight = {
+    enable = true,
+    -- Enable async highlighting for better performance
+    -- additional_vim_regex_highlighting = false,
+  },
   indent = { enable = true },
+  -- Enable async folding
+  fold = { enable = true },
   incremental_selection = {
     enable = true,
     keymaps = {

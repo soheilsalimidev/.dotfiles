@@ -69,6 +69,8 @@ in {
       "$modifier SHIFT,8,movetoworkspace,8"
       "$modifier SHIFT,9,movetoworkspace,9"
       "$modifier SHIFT,0,movetoworkspace,10"
+      "$modifier CONTROL,l,workspace,e+1"
+      "$modifier CONTROL,h,workspace,e-1"
       "$modifier CONTROL,right,workspace,e+1"
       "$modifier CONTROL,left,workspace,e-1"
       "$modifier,mouse_down,workspace, e+1"

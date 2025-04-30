@@ -17,8 +17,11 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-
+  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.1.5" ];
   environment.systemPackages = with pkgs; [
+    cachix
+    tlp
+    obsidian
     acpi
     ueberzugpp
     sshpass
@@ -62,7 +65,7 @@
     inputs.zen-browser.packages."x86_64-linux".default
     audacity
     nodejs
-    obs-studio
+    (obs-studio.override { cudaSupport = true; })
     handbrake
     yt-dlp
     zip

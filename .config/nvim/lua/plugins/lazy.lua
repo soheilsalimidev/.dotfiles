@@ -1,21 +1,45 @@
--- Install lazylazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out,                            "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Fixes ( Notify opacity ) issues
 vim.o.termguicolors = true
+vim.o.winborder = 'rounded'
 
 require("lazy").setup({
+	{
+		"epwalsh/obsidian.nvim",
+		version = "*", -- recommended, use latest release instead of latest commit
+		lazy = true,
+		ft = "markdown",
+		dependencies = {
+			-- Required.
+			"nvim-lua/plenary.nvim",
+			"hrsh7th/nvim-cmp",
+			"nvim-telescope/telescope.nvim",
+			"nvim-treesitter"
+		},
+		opts = {
+			workspaces = {
+				{
+					name = "personal",
+					path = "~/Documents/legendary-note",
+				},
+			},
+
+		},
+	},
 	{
 		"nvim-pack/nvim-spectre",
 		keys = {
@@ -52,7 +76,6 @@ require("lazy").setup({
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
-	"preservim/vim-pencil",
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
@@ -75,7 +98,6 @@ require("lazy").setup({
 			require("nvim-surround").setup({})
 		end,
 	},
-	"xiyaowong/nvim-transparent",
 	{
 		"folke/trouble.nvim",
 		lazy = false,
@@ -140,6 +162,7 @@ require("lazy").setup({
 			require("notify").setup({
 				background_colour = "#000000",
 				enabled = false,
+				merge_duplicates = true
 			})
 		end,
 	},
@@ -192,9 +215,6 @@ require("lazy").setup({
 			"rcarriga/nvim-notify",
 		},
 	},
-
-	-- "ray-x/go.nvim",
-	"ray-x/guihua.lua",
 	{
 		"folke/tokyonight.nvim",
 		lazy = false,
@@ -208,7 +228,6 @@ require("lazy").setup({
 			require("nvim-autopairs").setup({})
 		end,
 	},
-
 	{ -- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
 		dependencies = {
@@ -309,25 +328,16 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 	},
-
-
 	-- Git related plugins
 	"tpope/vim-fugitive",
 	"lewis6991/gitsigns.nvim",
-
+	{ 'echasnovski/mini.nvim',               version = '*' },
 	"nvim-lualine/lualine.nvim", -- Fancier statusline
 	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
-	{
-		"numToStr/Comment.nvim", -- "gc" to comment visual regions/lines
-		event = { "BufRead", "BufNewFile" },
-	},
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-
-	-- Fuzzy Finder (files, lsp, etc)
-	{ "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "nvim-telescope/telescope.nvim",            branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
 	"nvim-telescope/telescope-symbols.nvim",
-	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make",   cond = vim.fn.executable("make") == 1 },
 	{
 		"karb94/neoscroll.nvim",
 		event = "WinScrolled",
@@ -340,26 +350,6 @@ require("lazy").setup({
 	},
 	{
 		"wakatime/vim-wakatime",
-	},
-	{
-		"norcalli/nvim-colorizer.lua",
-		config = function()
-			require("colorizer").setup()
-		end,
-	},
-	{
-		"johmsalas/text-case.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		-- Author's Note: If default keymappings fail to register (possible config issue in my local setup),
-		-- verify lazy loading functionality. On failure, disable lazy load and report issue
-		-- lazy = false,
-		config = function()
-			require("textcase").setup({})
-			require("telescope").load_extension("textcase")
-		end,
-		keys = {
-			{ "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
-		},
 	},
 	{
 		"Pocco81/auto-save.nvim",
@@ -410,43 +400,22 @@ require("lazy").setup({
 		event = { "BufReadPre", "BufNewFile" },
 	},
 	{
-		"windwp/nvim-ts-autotag",
+		'fedepujol/move.nvim',
 		config = function()
-			require("nvim-ts-autotag").setup({
-				opts = {
-					-- Defaults
-					enable_close = true, -- Auto close tags
-					enable_rename = true, -- Auto rename pairs of tags
-					enable_close_on_slash = false, -- Auto close on trailing </
-				},
-				-- Also override individual filetype configs, these take priority.
-				-- Empty by default, useful if one of the "opts" global settings
-				-- doesn't work well in a specific filetype
-				per_filetype = {
-					["html"] = {
-						enable_close = false,
-					},
-				},
-			})
-		end,
-	},
-{ 
-    'fedepujol/move.nvim',
-				config = function()
-		require('move').setup({})
-		local opts = { noremap = true, silent = true }
--- Normal-mode commands
-vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
-vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
-vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
-vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
+			require('move').setup({})
+			local opts = { noremap = true, silent = true }
+			-- Normal-mode commands
+			vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
+			vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
+			vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
+			vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
 
--- Visual-mode commands
-vim.keymap.set('v', '<A-j>', ':MoveBlock(1)<CR>', opts)
-vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
+			-- Visual-mode commands
+			vim.keymap.set('v', '<A-j>', ':MoveBlock(1)<CR>', opts)
+			vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
 		end
 
-},
+	},
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = { "rafamadriz/friendly-snippets" },
@@ -479,6 +448,6 @@ vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
 	{
 		"chrisgrieser/nvim-recorder",
 		dependencies = "rcarriga/nvim-notify", -- optional
-		opts = {}, -- required even with default settings, since it calls `setup()`
+		opts = {},               -- required even with default settings, since it calls `setup()`
 	},
 })

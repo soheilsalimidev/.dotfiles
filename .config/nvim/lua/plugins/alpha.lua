@@ -16,7 +16,7 @@ dashboard.section.buttons.val = {
 	dashboard.button("<leader>qs", "  > currct session"),
 	dashboard.button("<leader>ql", "  > last session", ":Telescope persisted"),
 	dashboard.button("s", "  > Settings", ":e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
-	dashboard.button("q", "  > Quit NVIM", ":qa<CR>"),
+	dashboard.button("q", "󰈆  > Quit NVIM", ":qa<CR>"),
 }
 
 alpha.setup(dashboard.opts)

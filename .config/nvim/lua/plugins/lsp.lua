@@ -1,18 +1,8 @@
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 vim.keymap.set("n", "gl", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
--- LSP settings.
---  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
-	-- NOTE: Remember that lua is a real programming language, and as such it is possible
-	-- to define small helper and utility functions so you don't have to repeat yourself
-	-- many times.
-	--
-	-- In this case, we create a function that lets us more easily define mappings specific
-	-- for LSP related items. It sets the mode, buffer and description for us each time.
 	local nmap = function(keys, func, desc)
 		if desc then
 			desc = "LSP: " .. desc
@@ -21,16 +11,8 @@ local on_attach = function(_, bufnr)
 		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 	end
 
-	if vim.lsp.inlay_hint then
-		nmap("<leader>L", function()
-			if vim.lsp.inlay_hint.is_enabled() then
-				vim.lsp.inlay_hint.enable(false, { bufnr })
-			else
-				vim.lsp.inlay_hint.enable(true, { bufnr })
-			end
-		end, "Toggle Inlay Hints")
-	end
-
+	vim.lsp.inlay_hint.enable(true)
+	vim.diagnostic.config({ virtual_text = true })
 	nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 	nmap("<leader>la", function()
 		require("tiny-code-action").code_action()
@@ -54,6 +36,20 @@ local on_attach = function(_, bufnr)
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, "[W]orkspace [L]ist Folders")
 
+	nmap("<leader>L", function()
+		local current = vim.lsp.inlay_hint.is_enabled(bufnr)
+		vim.lsp.inlay_hint.enable(not current)
+	end, "Toggle Inlay Hints")
+	local default_config = { virtual_lines = { current_line = true } }
+	vim.diagnostic.config(default_config)
+
+	vim.keymap.set('n', '<leader>k', function()
+		if vim.diagnostic.config().virtual_lines == true then
+			vim.diagnostic.config(default_config)
+		else
+			vim.diagnostic.config({ virtual_lines = true })
+		end
+	end, { desc = 'Toggle showing all diagnostics or just current line' })
 end
 
 -- Setup mason so it can manage external tooling
@@ -64,9 +60,7 @@ require("mason").setup()
 local servers = { "rust_analyzer", "pyright", "ts_ls", "volar" }
 
 -- Ensure the servers above are installed
-require("mason-lspconfig").setup({
-	ensure_installed = servers,
-})
+require("mason-lspconfig").setup()
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -82,9 +76,7 @@ end
 -- Turn on lsp status information
 require("fidget").setup({})
 
--- Example custom configuration for lua
 --
--- Make runtime files discoverable to the server
 local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -122,13 +114,13 @@ require("lspconfig").tailwindcss.setup({
 require("lspconfig").hyprls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-	filetypes = { "conf"},
+	filetypes = { "conf" },
 })
 
 require("lspconfig").nil_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-	filetypes = { "nix"},
+	filetypes = { "nix" },
 })
 
 require("lspconfig").ts_ls.setup({
@@ -165,7 +157,8 @@ require("lspconfig").ts_ls.setup({
 		plugins = {
 			{
 				name = "@vue/typescript-plugin",
-				location = "/home/arthur/.local/share/nvim/mason/packages/vue-language-server/node_modules/@vue/language-server",
+				location =
+				"/home/arthur/.local/share/nvim/mason/packages/vue-language-server/node_modules/@vue/language-server",
 				languages = { "vue" },
 			},
 		},
@@ -207,22 +200,18 @@ require("lspconfig").rust_analyzer.setup({
 
 require("lspconfig").yamlls.setup({
 	filetypes = { "yml", "ymal" },
+	capabilities = capabilities,
+
 })
-
--- require("lspconfig").eslint.setup({
--- 	filetypes = { "vue", "typescript", "javascript" },
--- })
-
--- require('lspconfig').java.setup {
---   filetypes = { 'java' },
--- }
 
 require("lspconfig").sqlls.setup({
 	filetypes = { "sql" },
+	capabilities = capabilities,
 })
 
 require("lspconfig").prismals.setup({
 	filetypes = { "prisma" },
+	capabilities = capabilities,
 })
 
 vim.api.nvim_create_autocmd("FileType", {

@@ -35,5 +35,5 @@
   animChoice = ../../modules/home/hyprland/animations-dynamic.nix;
 
   # Enable Thunar GUI File Manager
-  thunarEnable = false;
+  thunarEnable = true;
 }

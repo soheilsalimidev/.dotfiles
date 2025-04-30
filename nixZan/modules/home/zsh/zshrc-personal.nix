@@ -57,6 +57,7 @@
     PS1='%B%F{blue}󱄅%f%b  %B%F{magenta}%n%f%b $(dir_icon)  %B%F{red}%~%f%b''${vcs_info_msg_0_} %(?.%B%F{green}.%F{red})%f%b '
 
     alias cl="clear"
+    alias nb="sudo nixos-rebuild switch --flake /home/arthur/.dotfiles/nixZan/#nvidia-laptop"
     alias cd="z"
     alias wireless="sshpass -p 09103502440  ssh admin@192.168.88.1 \"/ip firewall mangle set 3 new-routing-mark=\"Wireless\""\"
     alias adsl="sshpass -p 09103502440  ssh admin@192.168.88.1 \"/ip firewall mangle set 3 new-routing-mark=\"ADSL\""\"

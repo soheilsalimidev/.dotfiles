@@ -30,5 +30,6 @@ in {
     ./zsh
     ./direnv.nix
     ./spotify.nix
+    ./kdeconnect.nix
   ];
 }
