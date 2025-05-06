@@ -11,16 +11,15 @@ local function my_on_attach(bufnr)
 	-- custom mappings
 	vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
 	vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
-	vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
+	vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Open"))
 end
 
 local tree = require("nvim-tree")
+-- local icons = require("core.plugin_config.icons")
 
 local config = {
 	on_attach = my_on_attach,
 	hijack_cursor = true,
-	sync_root_with_cwd = true,
-	respect_buf_cwd = true,
 	hijack_directories = {
 		enable = false,
 	},
@@ -28,71 +27,39 @@ local config = {
 		custom = { ".git" },
 		exclude = { ".gitignore", ".env" },
 	},
-	update_focused_file = {
-		enable = true,
-		update_root = true,
-		ignore_list = {},
-	},
-	diagnostics = {
-		enable = true,
-		show_on_dirs = false,
-		show_on_open_dirs = false,
-		debounce_delay = 50,
-		severity = {
-			min = vim.diagnostic.severity.HINT,
-			max = vim.diagnostic.severity.ERROR,
-		},
-	},
+	update_cwd = true,
 	renderer = {
+		special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+		add_trailing = false,
+		group_empty = false,
 		highlight_git = "name",
-		highlight_diagnostics = "name",
-		highlight_opened_files = "name",
-		highlight_modified = "name",
+		highlight_opened_files = "none",
+		root_folder_modifier = ":t",
 		indent_markers = {
 			enable = true,
-			inline_arrows = true,
 			icons = {
-				corner = "└",
-				edge = "│",
-				item = "│",
-				bottom = "",
-				none = " ",
+				corner = "└ ",
+				edge = "│ ",
+				none = "  ",
 			},
 		},
 		icons = {
-			web_devicons = {
-				file = {
-					enable = true,
-					color = true,
-				},
-				folder = {
-					enable = false,
-					color = true,
-				},
-			},
+			webdev_colors = true,
 			git_placement = "before",
-			modified_placement = "after",
-			diagnostics_placement = "signcolumn",
-			bookmarks_placement = "signcolumn",
 			padding = " ",
 			symlink_arrow = " ➛ ",
 			show = {
 				file = true,
 				folder = true,
 				folder_arrow = true,
-				git = true,
-				modified = true,
-				diagnostics = true,
-				bookmarks = true,
+				git = false,
 			},
 			glyphs = {
-				default = "",
-				symlink = "",
-				bookmark = "󰆤",
-				modified = "●",
+				default = "",
+				symlink = "",
 				folder = {
--- arrow_open = icons.ui.ArrowOpen,
-					-- 					arrow_closed = icons.ui.ArrowClosed,
+					-- arrow_open = icons.ui.ArrowOpen,
+					-- arrow_closed = icons.ui.ArrowClosed,
 					default = "",
 					open = "",
 					empty = "",
@@ -101,43 +68,45 @@ local config = {
 					symlink_open = "",
 				},
 				git = {
-					unstaged = "",
-					staged = "✓",
-					unmerged = "",
+					unstaged = "",
+					staged = "S",
+					unmerged = "",
 					renamed = "➜",
-					untracked = "★",
-					deleted = "",
+					untracked = "U",
+					deleted = "",
 					ignored = "◌",
 				},
 			},
 		},
 	},
+	diagnostics = {
+		enable = true,
+		-- icons = {
+		--   hint = icons.diagnostics.Hint,
+		--   info = icons.diagnostics.Information,
+		--   warning = icons.diagnostics.Warning,
+		--   error = icons.diagnostics.Error,
+		-- },
+	},
+	update_focused_file = {
+		enable = true,
+		update_cwd = true,
+		ignore_list = {},
+	},
 	git = {
 		enable = true,
-		ignore = false,
+		ignore = true,
+		timeout = 2000,
 		show_on_dirs = true,
 		show_on_open_dirs = true,
-		timeout = 200,
 	},
 	view = {
-		cursorline = true,
-		float = {
-			enable = false,
-			quit_on_focus_loss = true,
-			open_win_config = {
-				relative = "editor",
-				border = "rounded",
-				width = 30,
-				height = 30,
-				row = 1,
-				col = 1,
-			},
-		},
 		width = 30,
+		-- hide_root_folder = false,
 		side = "left",
+		-- auto_resize = true,
 		number = false,
 		relativenumber = false,
-		signcolumn = "yes",
 	},
 }
 
