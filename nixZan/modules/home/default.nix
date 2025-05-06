@@ -31,5 +31,6 @@ in {
     ./direnv.nix
     ./spotify.nix
     ./kdeconnect.nix
+    ./wezterm/wezterm.nix
   ];
 }

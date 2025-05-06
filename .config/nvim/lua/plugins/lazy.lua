@@ -15,7 +15,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.o.termguicolors = true
-vim.o.winborder = 'rounded'
 
 require("lazy").setup({
 	{

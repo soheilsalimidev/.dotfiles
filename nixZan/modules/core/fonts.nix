@@ -6,6 +6,7 @@
       noto-fonts-cjk-sans
       jetbrains-mono
       nerd-fonts.jetbrains-mono
+      # kawkab-mono-font
       # (pkgs.stdenv.mkDerivation {
       #   name = "iran-yekan-fonts";
       #   src = "path:../../../fonts";

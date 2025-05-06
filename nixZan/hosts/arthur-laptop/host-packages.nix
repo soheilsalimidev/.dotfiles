@@ -3,10 +3,6 @@
     pulseaudio
     cudatoolkit
     (ollama.override { acceleration = "cuda"; })
+    open-webui
   ];
-  # services.ollama = {
-  #   enable = true;
-  #   acceleration = "cuda";
-  # };
-  # services.open-webui.enable = true;
 }

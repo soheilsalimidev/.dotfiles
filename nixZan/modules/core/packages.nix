@@ -19,8 +19,8 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.1.5" ];
   environment.systemPackages = with pkgs; [
+    google-chrome
     cachix
-    tlp
     obsidian
     acpi
     ueberzugpp

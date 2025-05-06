@@ -11,7 +11,7 @@ local on_attach = function(_, bufnr)
 		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 	end
 
-	vim.lsp.inlay_hint.enable(true)
+	vim.lsp.inlay_hint.enable(false)
 	vim.diagnostic.config({ virtual_text = true })
 	nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 	nmap("<leader>la", function()
@@ -36,10 +36,10 @@ local on_attach = function(_, bufnr)
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, "[W]orkspace [L]ist Folders")
 
-	nmap("<leader>L", function()
-		local current = vim.lsp.inlay_hint.is_enabled(bufnr)
-		vim.lsp.inlay_hint.enable(not current)
-	end, "Toggle Inlay Hints")
+	-- nmap("<leader>L", function()
+	-- 	local current = vim.lsp.inlay_hint.is_enabled(bufnr)
+	-- 	vim.lsp.inlay_hint.enable(not current)
+	-- end, "Toggle Inlay Hints")
 	local default_config = { virtual_lines = { current_line = true } }
 	vim.diagnostic.config(default_config)
 

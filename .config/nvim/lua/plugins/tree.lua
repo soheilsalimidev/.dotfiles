@@ -35,8 +35,8 @@ local config = {
 	},
 	diagnostics = {
 		enable = true,
-		show_on_dirs = true,
-		show_on_open_dirs = true,
+		show_on_dirs = false,
+		show_on_open_dirs = false,
 		debounce_delay = 50,
 		severity = {
 			min = vim.diagnostic.severity.HINT,
@@ -55,7 +55,7 @@ local config = {
 				corner = "└",
 				edge = "│",
 				item = "│",
-				bottom = "─",
+				bottom = "",
 				none = " ",
 			},
 		},
@@ -66,7 +66,7 @@ local config = {
 					color = true,
 				},
 				folder = {
-					enable = true,
+					enable = false,
 					color = true,
 				},
 			},
