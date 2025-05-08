@@ -4,8 +4,8 @@ let inherit (import ../../hosts/${host}/variables.nix) waybarChoice;
 in {
   nixpkgs.config.allowUnfree = true;
   imports = [
-    ./alacritty.nix
-    ./tmux.nix
+    # ./alacritty.nix
+    # ./tmux.nix
     ./bat.nix
     ./btop.nix
     ./emoji.nix

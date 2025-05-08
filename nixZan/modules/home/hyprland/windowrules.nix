@@ -5,10 +5,9 @@ in {
     settings = {
       windowrulev2 = [
         # Workspace assignments
-      
 
         "tag +file-manager, class:^([Tt]hunar|org.gnome.Nautilus|[Pp]cmanfm-qt)$"
-        "tag +terminal, class:^(Alacritty|kitty|kitty-dropterm)$"
+        "tag +terminal, class:^(Alacritty|kitty|kitty-dropterm|org.wezfurlong.wezterm)$"
         "tag +browser, class:^(Brave-browser(-beta|-dev|-unstable)?|zen-beta)$"
         "tag +browser, class:^([Ff]irefox|org.mozilla.firefox|[Ff]irefox-esr)$"
         "tag +browser, class:^([Gg]oogle-chrome(-beta|-dev|-unstable)?)$"

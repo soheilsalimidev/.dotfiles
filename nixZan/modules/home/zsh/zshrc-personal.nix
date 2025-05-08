@@ -2,18 +2,8 @@
   home.packages = with pkgs; [ zsh ];
 
   home.file."./.zshrc-personal".text = ''
-    export TERMINAL='alacritty'
+    export TERMINAL='wezterm'
     export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
-
-    function dir_icon {
-      if [[ "$PWD" == "$HOME" ]]; then
-        echo "%B%F{black}%f%b"
-      else
-        echo "%B%F{cyan}%f%b"
-      fi
-    }
-
-
     autoload -Uz compinit
 
     for dump in ~/.config/zsh/zcompdump(N.mh+24); do
@@ -53,8 +43,6 @@
     setopt HIST_FIND_NO_DUPS   # When searching history don't display results already cycled through twice
     setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
 
-
-    PS1='%B%F{blue}󱄅%f%b  %B%F{magenta}%n%f%b $(dir_icon)  %B%F{red}%~%f%b''${vcs_info_msg_0_} %(?.%B%F{green}.%F{red})%f%b '
 
     alias cl="clear"
     alias nb="sudo nixos-rebuild switch --flake /home/arthur/.dotfiles/nixZan/#nvidia-laptop"
@@ -180,6 +168,7 @@
     unsetopt BEEP
     eval "$(zoxide init zsh)"
     eval "$(direnv hook zsh)"
+    eval "$(starship init zsh)"
 
     alias n='proxy_on; nvim ; proxy_off;'
     if [[ -o interactive ]]; then

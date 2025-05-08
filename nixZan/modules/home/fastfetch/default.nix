@@ -11,7 +11,8 @@
       };
 
       logo = {
-        source = "nix-old";
+        source = ./nixos.png;
+        type = "kitty-direct";
         height = 10;
         width = 20;
         padding = {

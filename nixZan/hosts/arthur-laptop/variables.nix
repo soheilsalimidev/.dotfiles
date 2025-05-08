@@ -11,7 +11,7 @@
 
   # Program Options
   browser = "zen-beta"; # Set Default Browser (google-chrome-stable for google-chrome)
-  terminal = "alacritty"; # Set Default System Terminal
+  terminal = "wezterm"; # Set Default System Terminal
   keyboardLayout = "us,ir";
   consoleKeyMap = "us";
 

@@ -7,7 +7,9 @@ _: {
     ghostty.enable = false;
     qt.enable = true;
     spicetify.enable = false;
+    starship.enable = false;
     tmux.enable = true;
     alacritty.enable = true;
+    wezterm.enable = true;
   };
 }
