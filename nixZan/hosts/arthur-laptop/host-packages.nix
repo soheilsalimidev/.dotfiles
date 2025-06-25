@@ -3,6 +3,9 @@
     pulseaudio
     cudatoolkit
     (ollama.override { acceleration = "cuda"; })
-    open-webui
   ];
+  services.open-webui = {
+    enable = true;
+    environment.OLLAMA_API_BASE_URL = "http://localhost:11434";
+  };
 }

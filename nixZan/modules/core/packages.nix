@@ -17,9 +17,13 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.1.5" ];
+  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.2.9" ];
   environment.systemPackages = with pkgs; [
     google-chrome
+    devenv
+    # rustdesk
+    # anydesk
+    # winbox
     cachix
     obsidian
     acpi
@@ -74,7 +78,7 @@
     nwg-look
     gnumake
     pnpm
-    alacritty
+    # alacritty
     stow
     tmux
     zoxide

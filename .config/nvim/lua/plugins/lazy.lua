@@ -18,6 +18,13 @@ vim.o.termguicolors = true
 
 require("lazy").setup({
 	{
+		require('plugins.tailwind-tools'),
+		'windwp/nvim-ts-autotag',
+		config = function()
+			require('nvim-ts-autotag').setup()
+		end,
+	},
+	{
 		"epwalsh/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
 		lazy = true,
@@ -238,86 +245,6 @@ require("lazy").setup({
 			"j-hui/fidget.nvim",
 		},
 	},
-	{ -- Autocompletion
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"L3MON4D3/LuaSnip",
-			"hrsh7th/cmp-calc",
-			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-		},
-		config = function()
-			-- nvim-cmp setup
-			local cmp = require("cmp")
-			local lspkind = require("lspkind")
-			local luasnip = require("luasnip")
-			require("luasnip.loaders.from_vscode").lazy_load()
-			require("luasnip").filetype_extend("vue", { "vue" })
-
-			cmp.setup({
-				experimental = {
-					ghost_text = true,
-				},
-				formatting = {
-					format = lspkind.cmp_format({
-						mode = "symbol",
-						maxwidth = 50,
-						ellipsis_char = "...",
-						show_labelDetails = true,
-					}),
-				},
-				view = {
-					entries = { name = "custom", selection_order = "near_cursor" },
-				},
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-d>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = true,
-					}),
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expand_or_jumpable() then
-							luasnip.expand_or_jump()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				}),
-				sources = cmp.config.sources({
-					{ name = "copilot", group_index = 2 },
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-				}, {
-					{ name = "buffer" },
-					{ name = "vim-dadbod-completion" },
-					{ name = "calc" },
-					{ name = "path" },
-				}),
-			})
-		end,
-	},
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
@@ -327,16 +254,17 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 	},
+	require("plugins.cmp"),
 	-- Git related plugins
 	"tpope/vim-fugitive",
 	"lewis6991/gitsigns.nvim",
-	{ 'echasnovski/mini.nvim',               version = '*' },
+	"lambdalisue/vim-suda",
 	"nvim-lualine/lualine.nvim", -- Fancier statusline
-	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
-	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-	{ "nvim-telescope/telescope.nvim",            branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "lukas-reineke/indent-blankline.nvim", main = "ibl",     opts = {} },
+	"tpope/vim-sleuth",   -- Detect tabstop and shiftwidth automatically
+	{ "nvim-telescope/telescope.nvim",       branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
 	"nvim-telescope/telescope-symbols.nvim",
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make",   cond = vim.fn.executable("make") == 1 },
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
 	{
 		"karb94/neoscroll.nvim",
 		event = "WinScrolled",
@@ -347,9 +275,7 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{
-		"wakatime/vim-wakatime",
-	},
+	"wakatime/vim-wakatime",
 	{
 		"Pocco81/auto-save.nvim",
 		config = function()
@@ -447,6 +373,19 @@ require("lazy").setup({
 	{
 		"chrisgrieser/nvim-recorder",
 		dependencies = "rcarriga/nvim-notify", -- optional
-		opts = {},               -- required even with default settings, since it calls `setup()`
+		opts = {
+		},
 	},
+	{
+		'rmagatti/auto-session',
+		lazy = false,
+
+		---enables autocomplete for opts
+		---@module "auto-session"
+		---@type AutoSession.Config
+		opts = {
+			suppressed_dirs = { '~/projects' },
+			bypass_save_filetypes = { 'alpha' }
+		}
+	}
 })

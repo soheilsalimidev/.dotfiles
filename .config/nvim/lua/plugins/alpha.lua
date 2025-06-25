@@ -12,7 +12,6 @@ dashboard.section.header.val = {
 -- Set menu
 dashboard.section.buttons.val = {
 	dashboard.button("e", "  > New file", ":ene <BAR> startinsert <CR>"),
-	dashboard.button("<leader>f", "  > Find file"),
 	dashboard.button("<leader>qs", "  > currct session"),
 	dashboard.button("<leader>ql", "  > last session", ":Telescope persisted"),
 	dashboard.button("s", "  > Settings", ":e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),

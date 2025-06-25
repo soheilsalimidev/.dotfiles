@@ -4,8 +4,6 @@ in {
   wayland.windowManager.hyprland = {
     settings = {
       windowrulev2 = [
-        # Workspace assignments
-
         "tag +file-manager, class:^([Tt]hunar|org.gnome.Nautilus|[Pp]cmanfm-qt)$"
         "tag +terminal, class:^(Alacritty|kitty|kitty-dropterm|org.wezfurlong.wezterm)$"
         "tag +browser, class:^(Brave-browser(-beta|-dev|-unstable)?|zen-beta)$"
@@ -36,6 +34,7 @@ in {
         "move 72% 7%,title:^(Picture-in-Picture)$"
         "workspace 2 silent, tag:browser*"
         "workspace 6 silent, class:^(spotify)$"
+        "workspace 3 silent, class:^(code)$"
         "center, class:^([Ff]erdium)$"
         "float, class:^([Ww]aypaper)$"
         "center, class:^(pavucontrol|org.pulseaudio.pavucontrol|com.saivert.pwvucontrol)$"
@@ -68,7 +67,7 @@ in {
         "opacity 0.8 0.7, tag:settings*"
         "opacity 0.8 0.7, class:^(gedit|org.gnome.TextEditor|mousepad)$"
         "opacity 0.9 0.8, class:^(seahorse)$ # gnome-keyring gui"
-        "opacity 0.95 0.75, title:^(Picture-in-Picture)$"
+        "opacity 0.95 0.9, title:^(Picture-in-Picture)$"
         "pin, title:^(Picture-in-Picture)$"
         "keepaspectratio, title:^(Picture-in-Picture)$"
         "noblur, tag:games*"

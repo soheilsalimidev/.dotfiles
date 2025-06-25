@@ -15,8 +15,12 @@ _: {
         })
       '';
     };
+
+    pam.services.greetd.nodelay = true;
+    pam.services.sudo.nodelay = true;
     pam.services.swaylock = {
-      text = ''auth include login '';
+      text = "auth include login ";
+      nodelay = false;
     };
   };
 }

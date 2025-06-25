@@ -8,7 +8,7 @@
     (import ../../../hosts/${host}/variables.nix)
     extraMonitorSettings
     keyboardLayout
-    stylixImage
+    # stylixImage
     ;
 in {
   home.packages = with pkgs; [
@@ -57,7 +57,7 @@ in {
         "nm-applet --indicator"
         "pypr &"
         "sleep 1.5 && wallsetter"
-        "alacritty"
+        "wezterm"
         "spotify"
       ];
 

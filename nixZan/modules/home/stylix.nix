@@ -9,7 +9,7 @@ _: {
     spicetify.enable = false;
     starship.enable = false;
     tmux.enable = true;
-    alacritty.enable = true;
+    alacritty.enable = false;
     wezterm.enable = true;
   };
 }

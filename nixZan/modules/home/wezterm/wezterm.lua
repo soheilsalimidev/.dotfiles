@@ -66,23 +66,22 @@ config.keys = {
     mods = 'CTRL',
     action = act.ActivatePaneDirection 'Down',
   },
-  { key = "a", mods = "LEADER|CTRL",  action = wezterm.action { SendString = "\x01" } },
-  { key = "-", mods = "LEADER",       action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
-  { key = "|", mods = "LEADER",       action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
-  { key = "s", mods = "LEADER",       action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
-  { key = "v", mods = "LEADER",       action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
-  { key = "o", mods = "LEADER",       action = "TogglePaneZoomState" },
-  { key = "z", mods = "LEADER",       action = "TogglePaneZoomState" },
-  { key = "c", mods = "LEADER",       action = wezterm.action { SpawnTab = "CurrentPaneDomain" } },
-  { key = "h", mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Left" } },
-  { key = "j", mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Down" } },
-  { key = "k", mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Up" } },
-  { key = "l", mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Right" } },
-  { key = "H", mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Left", 5 } } },
-  { key = "J", mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Down", 5 } } },
-  { key = "K", mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Up", 5 } } },
-  { key = "L", mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Right", 5 } } },
-  { key = "q", mods = "LEADER",       action = wezterm.action { CloseCurrentPane = { confirm = true } } },
+  { key = "a",  mods = "LEADER|CTRL",  action = wezterm.action { SendString = "\x01" } },
+  { key = "-",  mods = "LEADER",       action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
+  { key = "\\", mods = "LEADER",       action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
+  { key = "v",  mods = "LEADER",       action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
+  { key = "o",  mods = "LEADER",       action = "TogglePaneZoomState" },
+  { key = "z",  mods = "LEADER",       action = "TogglePaneZoomState" },
+  { key = "c",  mods = "LEADER",       action = wezterm.action { SpawnTab = "CurrentPaneDomain" } },
+  { key = "h",  mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Left" } },
+  { key = "j",  mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Down" } },
+  { key = "k",  mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Up" } },
+  { key = "l",  mods = "LEADER",       action = wezterm.action { ActivatePaneDirection = "Right" } },
+  { key = "H",  mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Left", 5 } } },
+  { key = "J",  mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Down", 5 } } },
+  { key = "K",  mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Up", 5 } } },
+  { key = "L",  mods = "LEADER|SHIFT", action = wezterm.action { AdjustPaneSize = { "Right", 5 } } },
+  { key = "q",  mods = "LEADER",       action = wezterm.action { CloseCurrentPane = { confirm = false } } },
 }
 for i = 1, 9 do
   table.insert(config.keys, {
@@ -101,9 +100,15 @@ tabline.setup({
     icons_enabled = true,
     theme = 'Tokyo Night',
     tabs_enabled = true,
-    section_separators = '',
-    component_separators = '',
-    tab_separators = '',
+    section_separators = { left = "", right = "" },
+    component_separators = "|",
+    tab_separators = { left = "", right = "" },
+    theme_overrides = {
+      tab = {
+        active = { fg = '#727378', bg = '#15161e' },
+        inactive = { fg = '#414868', bg = '#272b3e' },
+      }
+    }
   },
   sections = {
     tabline_a = { 'mode' },
@@ -113,10 +118,10 @@ tabline.setup({
       'index',
       { 'parent', padding = 0 },
       '/',
-      { 'cwd',    padding = { left = 0, right = 1 } },
+      { 'cwd',    padding = { left = 0, right = 0 } },
       { 'zoomed', padding = 0 },
     },
-    tab_inactive = { 'index', { 'process', padding = { left = 3, right = 3 } } },
+    tab_inactive = { 'index', { 'process', padding = 0 } },
     tabline_x = { 'ram', 'cpu' },
     tabline_y = {},
     tabline_z = { 'domain' },
@@ -131,6 +136,14 @@ domains.apply_to_config(config, {
       key  = 'S',
       mods = 'SUPER',
     },
+    vsplit = {
+      key  = 'v',
+      mods = 'SHIFT|SUPER|CTRL|ALT',
+    },
+    hsplit = {
+      key  = 'h',
+      mods = 'SHIFT|SUPER|CTRL|ALT',
+    }
   }
 })
 

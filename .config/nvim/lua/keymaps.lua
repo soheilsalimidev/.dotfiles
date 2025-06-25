@@ -11,12 +11,6 @@ vim.keymap.set("n", "<leader>qq", ":q<CR>", { silent = true, noremap = true, des
 vim.keymap.set("n", "<leader>nn", ":Noice dismiss<CR>", { noremap = true, desc = "Noice dismiss" })
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { noremap = true, desc = "NvimTreeToggle" })
 
--- Tmux navigation
-vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>")
-vim.keymap.set("n", "<C-t>", "<cmd>TmuxNavigateDown<CR>")
-vim.keymap.set("n", "<C-s>", "<cmd>TmuxNavigateUp<CR>")
-vim.keymap.set("n", "<C-n>", "<cmd>TmuxNavigateRight<CR>")
-
 -- Visual mode keymaps
 --
 vim.keymap.set("v", "<leader>p", "pgvy")
@@ -57,3 +51,8 @@ end)
 -- Move by visual line in normal mode
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
+
+
+map("n", "<leader>sa", "<Cmd>SessionSearch<CR>", opts)
+
+

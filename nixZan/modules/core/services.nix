@@ -7,6 +7,7 @@
     openssh.enable = true; # Enable SSH
     blueman.enable = true; # Bluetooth Support
     tumbler.enable = true; # Image/video preview
+    # lorri.enable = true;
     gnome.gnome-keyring.enable = true;
     v2raya.enable = true;
     smartd = {

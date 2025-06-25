@@ -50,11 +50,14 @@ require("lualine").setup({
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff", "diagnostics", require("recorder").recordingStatus },
+		lualine_b = { "branch", "diff", "diagnostics", require("recorder").recordingStatus
+		},
 		lualine_c = { "filename" },
 		lualine_x = { clients_lsp },
 		lualine_y = { wakatime.get_wakatime },
-		lualine_z = { "location" },
+		lualine_z = { function()
+			return require('auto-session.lib').current_session_name(true)
+		end, "location" },
 	},
 	extensions = { "nvim-tree" },
 })

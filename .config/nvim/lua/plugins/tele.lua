@@ -52,7 +52,7 @@ vim.keymap.set("n", "<leader>st", require("telescope.builtin").live_grep, { desc
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sb", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>sS", require("telescope.builtin").git_status, { desc = "" })
-vim.keymap.set("n", "<Leader>sn", "<CMD>lua require('telescope').extensions.notify.notify()<CR>", silent)
+vim.keymap.set("n", "<Leader>sn", "<CMD>lua require('telescope').extensions.notify.notify()<CR>")
 
 vim.api.nvim_set_keymap("n", "<Leader>sT", ":TodoTelescope<CR>", { noremap = true })
 vim.api.nvim_set_keymap(
