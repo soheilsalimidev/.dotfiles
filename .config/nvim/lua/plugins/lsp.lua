@@ -1,11 +1,13 @@
 require("plugins.lsp_config.lua_ls")
-require("plugins.lsp_config.tsserver_ls")
--- require("plugins.lsp_config.eslint")
+-- require("plugins.lsp_config.tsserver_ls")
+require("plugins.lsp_config.vtsls")
+require("plugins.lsp_config.vue_ls")
 
 vim.opt.completeopt = { "menuone", "fuzzy", "noinsert", "preview" }
 vim.o.omnifunc = "v:lua.vim.lsp.omnifunc"
 vim.lsp.enable({
-	"tsserver_ls",
+	-- "tsserver_ls",
+	"vtsls",
 	"vue_ls",
 	"css-variables_ls",
 	"css_ls",
@@ -46,7 +48,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			{ noremap = true, expr = true, silent = true })
 
 		-- LSP Keybindings
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {
+		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, {
 			buffer = buffer,
 			desc = "LSP: [R]e[n]ame"
 		})

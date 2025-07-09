@@ -17,7 +17,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.2.9" ];
+  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.2.12" ];
   environment.systemPackages = with pkgs; [
     google-chrome
     devenv
@@ -89,8 +89,11 @@
     rustup
     lsd
     go
+    droidcam
+    qimgv
     lua-language-server
     gcc
+    cmake
     nwg-displays
     luarocks
     postgresql
@@ -102,5 +105,6 @@
     neovim
     ghostscript
     vlc
+    code-cursor
   ];
 }
