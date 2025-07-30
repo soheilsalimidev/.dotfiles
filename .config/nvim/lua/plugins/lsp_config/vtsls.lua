@@ -16,5 +16,5 @@ vim.lsp.config.vtsls           = {
 			},
 		},
 	},
-	filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+	filetypes = { 'vue' },
 }

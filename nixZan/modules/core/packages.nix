@@ -106,5 +106,8 @@
     ghostscript
     vlc
     code-cursor
+    wineWowPackages.staging
+    wineWowPackages.waylandFull
+    winetricks
   ];
 }

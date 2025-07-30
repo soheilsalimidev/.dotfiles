@@ -10,7 +10,7 @@ vim.lsp.config.tsserver_ls = {
 			},
 		},
 	},
-	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact" },
 	root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
 	settings = {
 		typescript = {

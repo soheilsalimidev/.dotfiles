@@ -1,15 +1,9 @@
-{
-  host,
-  config,
-  pkgs,
-  ...
-}: let
-  inherit
-    (import ../../../hosts/${host}/variables.nix)
-    extraMonitorSettings
-    keyboardLayout
+{ host, config, pkgs, ... }:
+let
+  inherit (import ../../../hosts/${host}/variables.nix)
+    extraMonitorSettings keyboardLayout
     # stylixImage
-    ;
+  ;
 in {
   home.packages = with pkgs; [
     swww
@@ -19,11 +13,10 @@ in {
     swappy
     ydotool
     hyprpolkitagent
-    hyprland-qtutils  # needed for banners and ANR messages
+    hyprland-qtutils # needed for banners and ANR messages
   ];
-  systemd.user.targets.hyprland-session.Unit.Wants = [
-    "xdg-desktop-autostart.target"
-  ];
+  systemd.user.targets.hyprland-session.Unit.Wants =
+    [ "xdg-desktop-autostart.target" ];
   # Place Files Inside Home Directory
   home.file = {
     "Pictures/Wallpapers" = {
@@ -39,11 +32,9 @@ in {
     systemd = {
       enable = true;
       enableXdgAutostart = true;
-      variables = ["--all"];
+      variables = [ "--all" ];
     };
-    xwayland = {
-      enable = true;
-    };
+    xwayland = { enable = true; };
     settings = {
       exec-once = [
         "wl-paste --type text --watch cliphist store # Stores only text data"
@@ -63,9 +54,7 @@ in {
 
       input = {
         kb_layout = "${keyboardLayout}";
-        kb_options = [
-          "grp:win_space_toggle"
-        ];
+        kb_options = [ "grp:win_space_toggle" ];
         numlock_by_default = true;
         repeat_delay = 300;
         follow_mouse = 1;
@@ -77,7 +66,10 @@ in {
           scroll_factor = 0.8;
         };
       };
-
+      debug = {
+        disable_logs = true;
+        suppress_errors = true;
+      };
       gestures = {
         workspace_swipe = 1;
         workspace_swipe_fingers = 3;
@@ -96,7 +88,8 @@ in {
         gaps_out = 8;
         border_size = 2;
         resize_on_border = true;
-        "col.active_border" = "rgb(${config.lib.stylix.colors.base08}) rgb(${config.lib.stylix.colors.base0C}) 45deg";
+        "col.active_border" =
+          "rgb(${config.lib.stylix.colors.base08}) rgb(${config.lib.stylix.colors.base0C}) 45deg";
         "col.inactive_border" = "rgb(${config.lib.stylix.colors.base01})";
       };
 
@@ -108,12 +101,12 @@ in {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         enable_swallow = false;
-        vfr = true;   # Variable Frame Rate 
-        vrr = 2;   #Variable Refresh Rate  Might need to set to 0 for NVIDIA/AQ_DRM_DEVICES
+        vfr = true; # Variable Frame Rate
+        vrr =
+          2; # Variable Refresh Rate  Might need to set to 0 for NVIDIA/AQ_DRM_DEVICES
         # Screen flashing to black momentarily or going black when app is fullscreen
         # Try setting vrr to 0
-      };  
-
+      };
 
       dwindle = {
         pseudotile = true;
@@ -145,11 +138,11 @@ in {
         no_warps = true;
       };
 
-      render = {
-        explicit_sync = 1; # Change to 1 to disable
-        explicit_sync_kms = 1;
-        direct_scanout = 0;
-      };
+      # render = {
+      #   explicit_sync = 0; # Change to 1 to disable
+      #   explicit_sync_kms = 0;
+      #   direct_scanout = 0;
+      # };
 
       master = {
         new_status = "master";
@@ -177,11 +170,7 @@ in {
       ];
     };
 
-    extraConfig = "
-      source = ~/.config/hypr/monitors.conf
-      source = ~/.config/hypr/workspaces.conf
-      # monitor=,preferred,auto,auto
-      # ${extraMonitorSettings}
-    ";
+    extraConfig =
+      "\n      source = ~/.config/hypr/monitors.conf\n      source = ~/.config/hypr/workspaces.conf\n      # monitor=,preferred,auto,auto\n   debug { suppress_errors = true }";
   };
 }

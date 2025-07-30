@@ -18,6 +18,11 @@ vim.o.termguicolors = true
 
 require("lazy").setup({
 	{
+		'MeanderingProgrammer/render-markdown.nvim',
+		dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+		opts = {},
+	},
+	{
 		require('plugins.tailwind-tools'),
 		'windwp/nvim-ts-autotag',
 		config = function()

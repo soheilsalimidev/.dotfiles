@@ -1,15 +1,16 @@
 require("plugins.lsp_config.lua_ls")
--- require("plugins.lsp_config.tsserver_ls")
+require("plugins.lsp_config.docker_ls")
 require("plugins.lsp_config.vtsls")
 require("plugins.lsp_config.vue_ls")
-
+require("plugins.lsp_config.cssls")
+require("plugins.lsp_config.tsserver_ls")
+-- vim.lsp.set_log_level("debug")
 vim.opt.completeopt = { "menuone", "fuzzy", "noinsert", "preview" }
 vim.o.omnifunc = "v:lua.vim.lsp.omnifunc"
 vim.lsp.enable({
-	-- "tsserver_ls",
+	"tsserver_ls",
 	"vtsls",
 	"vue_ls",
-	"css-variables_ls",
 	"css_ls",
 	"lua_ls",
 	"hyprls",
@@ -21,6 +22,7 @@ vim.lsp.enable({
 	"eslint",
 	"taplo",
 	"nil_ls",
+	"clangd",
 	"markdown_oxide"
 })
 -- Diagnostic keymaps
