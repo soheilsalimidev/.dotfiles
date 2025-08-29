@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   programs.tmux = {
-    enable = true;
+    enable = false;
 
     prefix = "C-Space";
     baseIndex = 1;

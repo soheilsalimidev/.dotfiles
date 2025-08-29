@@ -25,6 +25,10 @@ in {
     };
     ".face.icon".source = ./face.jpg;
     ".config/face.jpg".source = ./face.jpg;
+    ".config/hypr/monitor-manager.sh" = {
+      source = ./monitor.sh;
+      executable = true;
+    };
   };
   wayland.windowManager.hyprland = {
     enable = true;
@@ -48,6 +52,7 @@ in {
         "nm-applet --indicator"
         "pypr &"
         "sleep 1.5 && wallsetter"
+        # "$HOME/.config/hypr/monitor-manager.sh &"
         "wezterm"
         "spotify"
       ];
@@ -169,8 +174,8 @@ in {
         "EDITOR,nvim"
       ];
     };
-
-    extraConfig =
-      "\n      source = ~/.config/hypr/monitors.conf\n      source = ~/.config/hypr/workspaces.conf\n      # monitor=,preferred,auto,auto\n   debug { suppress_errors = true }";
+    extraConfig = ''
+      source = ~/.config/hypr/monitors.conf
+      source = ~/.config/hypr/workspaces.conf'';
   };
 }

@@ -2,7 +2,7 @@ local conform = require("conform")
 
 conform.setup({
 	formatters_by_ft = {
-		javascript = { "dprint" },
+		javascript = { "prettier", stop_after_first = true, lsp_format = "fallback" },
 		typescript = { "dprint" },
 		javascriptreact = { "dprint" },
 		typescriptreact = { "dprint" },
@@ -16,7 +16,7 @@ conform.setup({
 		graphql = { "dprint" },
 		liquid = { "prettier" },
 		lua = { lsp_format = true },
-		vue = { "dprint" , "rustywind" },
+		vue = { "dprint", "rustywind" },
 		python = { "isort", "black" },
 		prisma = { "prismals", lsp_format = "fallback" },
 		rust = { "rustfmt", lsp_format = "fallback" },

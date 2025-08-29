@@ -88,9 +88,9 @@ in {
       ",XF86MonBrightnessUp,exec,brightnessctl set +5%"
 
       # Monitor management bindings
-      "ALT SHIFT,1,exec,hyprctl keyword monitor eDP-1,preferred,auto,1"
-      "ALT SHIFT,2,exec,hyprctl keyword monitor HDMI-A-1,preferred,auto,1"
-      "ALT SHIFT,3,exec,hyprctl keyword monitor eDP-1,preferred,auto,1;hyprctl keyword monitor HDMI-A-1,preferred,right,1"
+      "ALT SHIFT,1,exec,cp  ~/.config/hypr/monitors1.conf ~/.config/hypr/monitors.conf"
+      "ALT SHIFT,2,exec,cp  ~/.config/hypr/monitors2.conf ~/.config/hypr/monitors.conf"
+      "ALT SHIFT,2,exec,cp  ~/.config/hypr/monitors3.conf ~/.config/hypr/monitors.conf"
     ];
 
     bindm = [

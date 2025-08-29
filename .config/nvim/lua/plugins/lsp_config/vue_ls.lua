@@ -18,11 +18,11 @@ vim.lsp.config.vue_ls = {
           payload,
         },
       }, { bufnr = context.bufnr }, function(_, r)
-        if r ~= nil then
-          local response_data = { { id, r.body } }
+        -- if r ~= nil then
+          local response_data = { { id, r and r.body } }
           ---@diagnostic disable-next-line: param-type-mismatch
           client:notify('tsserver/response', response_data)
-        end
+        -- end
       end)
     end
   end,
