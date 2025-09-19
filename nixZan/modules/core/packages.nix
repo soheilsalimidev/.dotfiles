@@ -67,7 +67,7 @@
     yt-dlp
     zip
     vscode
-    nwg-displays
+    # nwg-displays
     nwg-look
     gnumake
     pnpm
