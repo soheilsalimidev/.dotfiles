@@ -17,7 +17,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.2.12" ];
+  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.3.4" ];
   environment.systemPackages = with pkgs; [
     google-chrome
     devenv
@@ -27,6 +27,7 @@
     ueberzugpp
     sshpass
     epson-escpr
+    nwg-displays
     appimage-run # Needed For AppImage Support
     brightnessctl # For Screen Brightness Control
     cliphist # Clipboard manager using rofi menu
@@ -67,13 +68,10 @@
     yt-dlp
     zip
     vscode
-    # nwg-displays
     nwg-look
     gnumake
     pnpm
-    # alacritty
     stow
-    # tmux
     zoxide
     telegram-desktop
     v2raya
@@ -99,5 +97,8 @@
     wineWowPackages.waylandFull
     winetricks
     gamemode
+    nload
+    awscli2
+    lazygit
   ];
 }
