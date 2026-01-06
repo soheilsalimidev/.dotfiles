@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, ... }: {
   programs = {
     direnv = {
       enable = true;
@@ -6,6 +6,7 @@
       nix-direnv.enable = true;
     };
 
-    zsh.enable = true; # see note on other shells below
+    zsh.enable = true;
+    zsh.dotDir = "${config.xdg.configHome}/zsh";
   };
 }

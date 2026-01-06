@@ -21,9 +21,10 @@
     ./user.nix
     ./virtualisation.nix
     ./xserver.nix
+    ./latex.nix
     ./../../cachix.nix
+
     inputs.stylix.nixosModules.stylix
   ];
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [ ];
 }

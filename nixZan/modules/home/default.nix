@@ -29,8 +29,9 @@ in {
     ./zoxide.nix
     ./zsh
     ./direnv.nix
-    ./spotify.nix
+    # ./spotify.nix
     ./kdeconnect.nix
     ./wezterm/wezterm.nix
+
   ];
 }

@@ -19,6 +19,8 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.3.4" ];
   environment.systemPackages = with pkgs; [
+    inotify-tools
+    spotify
     google-chrome
     devenv
     cachix
@@ -37,7 +39,7 @@
     ffmpeg # Terminal Video / Audio Editing
     file-roller # Archive Manager
     gedit # Simple Graphical Text Editor
-    glxinfo # needed for inxi diag util
+    mesa-demos # needed for inxi diag util
     tuigreet # The Login Manager (Sometimes Referred To As Display Manager)
     htop # Simple Terminal Based System Monitor
     hyprpicker # Color Picker
@@ -62,7 +64,7 @@
     # yazi # TUI File Manager
     inputs.zen-browser.packages."x86_64-linux".default
     audacity
-    nodejs
+    nodejs_25
     (obs-studio.override { cudaSupport = true; })
     handbrake
     yt-dlp
@@ -100,5 +102,10 @@
     nload
     awscli2
     lazygit
+    imagemagick
+    python314
+    python314Packages.pip
+    python314Packages.virtualenv
+    python314Packages.jupyter-client
   ];
 }

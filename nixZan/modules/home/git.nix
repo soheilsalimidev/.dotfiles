@@ -3,9 +3,9 @@ let inherit (import ../../hosts/${host}/variables.nix) gitUsername gitEmail;
 in {
   programs.git = {
     enable = true;
-    userName = "${gitUsername}";
-    userEmail = "${gitEmail}";
-    extraConfig = {
+    settings = {
+      user.name = "${gitUsername}";
+      user.email = "${gitEmail}";
       commit.gpgsign = true;
       tag.gpgSign = true;
       gpg.format = "openpgp";

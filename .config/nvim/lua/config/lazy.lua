@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -16,8 +16,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { import = "lazyvim.plugins.extras.lang.typescript" },
+    { "LazyVim/LazyVim",                                     import = "lazyvim.plugins" },
+    -- { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.vue" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
     { import = "lazyvim.plugins.extras.lang.json" },
@@ -40,7 +40,7 @@ require("lazy").setup({
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update
-  }, -- automatically check for plugin updates
+  },                -- automatically check for plugin updates
   performance = {
     rtp = {
       disabled_plugins = {
@@ -52,4 +52,7 @@ require("lazy").setup({
       },
     },
   },
+  rocks = {
+    hererocks = true, -- recommended if you do not have global installation of Lua 5.1.
+  }
 })

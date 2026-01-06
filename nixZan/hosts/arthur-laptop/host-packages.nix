@@ -2,7 +2,7 @@
   environment.systemPackages = with pkgs; [
     pulseaudio
     cudatoolkit
-    (ollama.override { acceleration = "cuda"; })
+    # (ollama.override { acceleration = "cuda"; })
   ];
   # services.open-webui = {
   #   enable = true;
