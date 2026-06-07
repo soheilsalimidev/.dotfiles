@@ -1,12 +1,33 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
+  environment.systemPackages = with pkgs; [
+    sbctl
+  ];
+
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
     kernelModules = [ "v4l2loopback" ];
     extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-    kernel.sysctl = { "vm.max_map_count" = 2147483642; };
-    loader.systemd-boot.enable = true;
+    kernel.sysctl = {
+      "vm.max_map_count" = 2147483642;
+    };
+    loader.systemd-boot.enable = lib.mkForce false;
+
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+      autoGenerateKeys.enable = true;
+      autoEnrollKeys = {
+        enable = true;
+        autoReboot = true;
+      };
+    };
     loader.efi.canTouchEfiVariables = true;
     # Appimage Support
     binfmt.registrations.appimage = {
@@ -18,7 +39,6 @@
       magicOrExtension = "\\x7fELF....AI\\x02";
     };
     plymouth.enable = true;
-
     # Enable "Silent boot"
     consoleLogLevel = 3;
     initrd.verbose = false;
@@ -32,4 +52,3 @@
     loader.timeout = 0;
   };
 }
-

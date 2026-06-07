@@ -52,7 +52,7 @@ in {
         "opacity 0.9 0.8, match:tag projects*"
         "opacity 0.75 0.82, match:tag im*"
         "opacity 0.9 0.8, match:tag file-manager*"
-        "opacity 0.8 0.7, match:tag terminal*"
+        "opacity 0.85 0.8, match:tag terminal*"
         "opacity 0.8 0.7, match:class ^(gedit|org.gnome.TextEditor|mousepad)$"
         "opacity 0.9 0.8, match:class ^(seahorse)$ # gnome-keyring gui"
         "no_blur on, fullscreen on, match:tag games*"

@@ -93,7 +93,7 @@ in with lib; {
       };
       "memory" = {
         interval = 5;
-        format = " {}%";
+        format = " {text}%";
         tooltip = true;
       };
       "cpu" = {
@@ -151,7 +151,7 @@ in with lib; {
       };
       "custom/notification" = {
         tooltip = false;
-        format = "{icon} {}";
+        format = "{icon} {text}";
         format-icons = {
           notification = "<span foreground='red'><sup></sup></span>";
           none = "";
@@ -184,7 +184,7 @@ in with lib; {
       };
       "temperature" = {
         interval = 2;
-        hwmon-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input"; # You might need to adjust this path
+        hwmon-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input"; 
         critical-threshold = 80;
         format = "{icon} {temperatureC}°C";
         format-icons = ["" "" "" "" ""];

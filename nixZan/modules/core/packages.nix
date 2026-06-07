@@ -7,7 +7,7 @@
     seahorse.enable = true;
     fuse.userAllowOther = true;
     mtr.enable = true;
-    adb.enable = true;
+    # adb.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -17,7 +17,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.3.4" ];
+  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.5.5" ];
   environment.systemPackages = with pkgs; [
     inotify-tools
     spotify
@@ -64,7 +64,7 @@
     # yazi # TUI File Manager
     inputs.zen-browser.packages."x86_64-linux".default
     audacity
-    nodejs_25
+    nodejs
     (obs-studio.override { cudaSupport = true; })
     handbrake
     yt-dlp
@@ -95,8 +95,8 @@
     fzf
     neovim
     vlc
-    wineWowPackages.staging
-    wineWowPackages.waylandFull
+    wineWow64Packages.staging
+    wineWow64Packages.waylandFull
     winetricks
     gamemode
     nload
@@ -107,5 +107,6 @@
     python314Packages.pip
     python314Packages.virtualenv
     python314Packages.jupyter-client
+     pkgs.onlyoffice-desktopeditors
   ];
 }

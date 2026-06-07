@@ -6,7 +6,7 @@ let
   ;
 in {
   home.packages = with pkgs; [
-    swww
+    awww
     grim
     slurp
     wl-clipboard
@@ -14,6 +14,7 @@ in {
     ydotool
     hyprpolkitagent
     hyprland-qtutils # needed for banners and ANR messages
+    
   ];
   systemd.user.targets.hyprland-session.Unit.Wants =
     [ "xdg-desktop-autostart.target" ];
@@ -46,7 +47,7 @@ in {
         "dbus-update-activation-environment --all --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "systemctl --user start hyprpolkitagent"
-        "killall -q swww;sleep .5 && swww-daemon &"
+        "killall -q awww;sleep .5 && awww-daemon &"
         "killall -q waybar;sleep .5 && waybar"
         "killall -q swaync;sleep .5 && swaync"
         "nm-applet --indicator"
