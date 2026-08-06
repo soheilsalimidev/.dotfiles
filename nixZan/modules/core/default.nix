@@ -25,6 +25,7 @@
     ./../../cachix.nix
 
     inputs.stylix.nixosModules.stylix
+    
   ];
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [ quickshell ];
 }

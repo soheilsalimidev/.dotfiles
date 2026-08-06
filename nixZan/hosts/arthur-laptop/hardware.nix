@@ -22,6 +22,13 @@
     options = [ "fmask=0077" "dmask=0077" ];
   };
 
+  fileSystems."/mnt/linuxdrive" = {
+    device = "/dev/disk/by-uuid/4010dd19-8646-40cf-b8c8-52364ef1eeca";  # Or use "/dev/sda1"
+    fsType = "ext4";
+    options = [ "defaults" "noatime" "nofail" "x-systemd.automount" "x-gvfs-show"];
+    noCheck = true;   # This maps to the "0 0" at the end (skips fsck)
+  };
+
   swapDevices =
     [{ device = "/dev/disk/by-uuid/b481c337-989d-4dcf-ada9-b8945aad5f22"; }];
 

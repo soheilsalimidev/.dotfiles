@@ -1,10 +1,17 @@
-{ host, config, pkgs, ... }:
+{
+  host,
+  config,
+  pkgs,
+  ...
+}:
+
 let
   inherit (import ../../../hosts/${host}/variables.nix)
-    extraMonitorSettings keyboardLayout
-    # stylixImage
-  ;
-in {
+    extraMonitorSettings
+    keyboardLayout
+    ;
+in
+{
   home.packages = with pkgs; [
     awww
     grim
@@ -13,11 +20,9 @@ in {
     swappy
     ydotool
     hyprpolkitagent
-    hyprland-qtutils # needed for banners and ANR messages
-    
+    hyprland-qtutils
   ];
-  systemd.user.targets.hyprland-session.Unit.Wants =
-    [ "xdg-desktop-autostart.target" ];
+  systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
   # Place Files Inside Home Directory
   home.file = {
     "Pictures/Wallpapers" = {
@@ -33,13 +38,16 @@ in {
   };
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "hyprlang";
     package = pkgs.hyprland;
     systemd = {
       enable = true;
       enableXdgAutostart = true;
       variables = [ "--all" ];
     };
-    xwayland = { enable = true; };
+    xwayland = {
+      enable = true;
+    };
     settings = {
       exec-once = [
         "wl-paste --type text --watch cliphist store # Stores only text data"
@@ -88,7 +96,7 @@ in {
       };
 
       general = {
-        layout = "dwindle";
+        layout = "scrolling";
         gaps_in = 6;
         gaps_out = 8;
         border_size = 2;
@@ -97,7 +105,10 @@ in {
           "rgb(${config.lib.stylix.colors.base08}) rgb(${config.lib.stylix.colors.base0C}) 45deg";
         "col.inactive_border" = "rgb(${config.lib.stylix.colors.base01})";
       };
-
+      scrolling = {
+        direction = "down"; # or "up"
+        column_width = 1.0;
+      };
       misc = {
         layers_hog_keyboard_focus = true;
         initial_workspace_tracking = 0;
@@ -107,8 +118,7 @@ in {
         disable_splash_rendering = true;
         enable_swallow = false;
         vfr = true; # Variable Frame Rate
-        vrr =
-          2; # Variable Refresh Rate  Might need to set to 0 for NVIDIA/AQ_DRM_DEVICES
+        vrr = 2; # Variable Refresh Rate  Might need to set to 0 for NVIDIA/AQ_DRM_DEVICES
         # Screen flashing to black momentarily or going black when app is fullscreen
         # Try setting vrr to 0
       };

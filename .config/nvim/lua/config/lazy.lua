@@ -18,6 +18,7 @@ require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim",                                     import = "lazyvim.plugins" },
     { import = "lazyvim.plugins.extras.lang.typescript" },
+    { import = "lazyvim.plugins.extras.lang.lean" },
     { import = "lazyvim.plugins.extras.lang.vue" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
     { import = "lazyvim.plugins.extras.lang.json" },

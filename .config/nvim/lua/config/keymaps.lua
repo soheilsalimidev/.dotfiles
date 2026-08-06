@@ -9,6 +9,7 @@ vim.keymap.set("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = 
 vim.keymap.set("n", "<A-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<A-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set({ "n", "v" }, "<Tab>", "$")
-vim.keymap.set("n", "<A-c>", function()
-  Snacks.bufdelete()
-end, { desc = "Delete Buffer" })
+vim.keymap.set('n', '{', '[{v%', { desc = 'Jump to enclosing {} block and select' })
+vim.keymap.set('n', '(', '[(v%', { desc = 'Jump to enclosing () block and select' })
+
+

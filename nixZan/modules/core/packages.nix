@@ -1,8 +1,7 @@
 { pkgs, inputs, ... }: {
   programs = {
     firefox.enable = false; # Firefox is not installed by default
-    hyprland.enable =
-      true; # someone forgot to set this so desktop file is created
+    hyprland.enable = true; # someone forgot to set this so desktop file is created
     dconf.enable = true;
     seahorse.enable = true;
     fuse.userAllowOther = true;
@@ -24,7 +23,6 @@
     google-chrome
     devenv
     cachix
-    obsidian
     acpi
     ueberzugpp
     sshpass
@@ -76,7 +74,7 @@
     stow
     zoxide
     telegram-desktop
-    v2raya
+    v2rayn
     ripgrep
     fd
     rustup
@@ -107,6 +105,11 @@
     python314Packages.pip
     python314Packages.virtualenv
     python314Packages.jupyter-client
-     pkgs.onlyoffice-desktopeditors
+    pkgs.onlyoffice-desktopeditors
+    qmk
+    dos2unix
+    nautilus
+    ffmpegthumbnailer
+
   ];
 }

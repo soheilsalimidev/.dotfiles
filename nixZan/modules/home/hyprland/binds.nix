@@ -1,8 +1,12 @@
 { host, ... }:
-let inherit (import ../../../hosts/${host}/variables.nix) browser terminal;
-in {
+let
+  inherit (import ../../../hosts/${host}/variables.nix) browser terminal;
+in
+{
   wayland.windowManager.hyprland.settings = {
     bind = [
+      "SUPER, J, layoutmsg, scroll down"
+      "SUPER, K, layoutmsg, scroll up"
       "SUPER,Return,exec,${terminal}"
       "SUPER,D,exec,rofi-launcher"
       "SHIFT CONTROL,L,exec,playerctl next"

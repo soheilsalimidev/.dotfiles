@@ -1,7 +1,9 @@
 { host, ... }:
 
-let inherit (import ../../hosts/${host}/variables.nix) waybarChoice;
-in {
+let
+  inherit (import ../../hosts/${host}/variables.nix) waybarChoice;
+in
+{
   nixpkgs.config.allowUnfree = true;
   imports = [
     # ./alacritty.nix
@@ -32,6 +34,5 @@ in {
     # ./spotify.nix
     ./kdeconnect.nix
     ./wezterm/wezterm.nix
-
   ];
 }
