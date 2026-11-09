@@ -1,0 +1,7 @@
+require("settings")
+require("monitors")
+require("workspaces")
+require("binds")
+require("rules")
+require("animation")
+require("smartgaps")

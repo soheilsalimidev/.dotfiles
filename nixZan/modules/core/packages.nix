@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }: {
+{
+  pkgs,
+  inputs,
+  ...
+}:
+{
   programs = {
     firefox.enable = false; # Firefox is not installed by default
     hyprland.enable = true; # someone forgot to set this so desktop file is created
@@ -6,7 +11,6 @@
     seahorse.enable = true;
     fuse.userAllowOther = true;
     mtr.enable = true;
-    # adb.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -16,8 +20,12 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [ "beekeeper-studio-5.5.5" ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "beekeeper-studio-6.1.4"
+    "firefox-esr-140-bin-unwrapped-140.17.0esr"
+  ];
   environment.systemPackages = with pkgs; [
+    android-tools
     inotify-tools
     spotify
     google-chrome
@@ -34,7 +42,8 @@
     cowsay # Great Fun Terminal Program
     docker-compose # Allows Controlling Docker From A Single File
     duf # Utility For Viewing Disk Usage In Terminal
-    ffmpeg # Terminal Video / Audio Editing
+    ffmpeg
+    hyprmoncfg
     file-roller # Archive Manager
     gedit # Simple Graphical Text Editor
     mesa-demos # needed for inxi diag util
@@ -61,10 +70,9 @@
     wget # Tool For Fetching Files With Links
     # yazi # TUI File Manager
     inputs.zen-browser.packages."x86_64-linux".default
-    audacity
     nodejs
     (obs-studio.override { cudaSupport = true; })
-    handbrake
+    # handbrake
     yt-dlp
     zip
     vscode
@@ -93,9 +101,6 @@
     fzf
     neovim
     vlc
-    wineWow64Packages.staging
-    wineWow64Packages.waylandFull
-    winetricks
     gamemode
     nload
     awscli2
@@ -110,6 +115,6 @@
     dos2unix
     nautilus
     ffmpegthumbnailer
-
+    zotero
   ];
 }

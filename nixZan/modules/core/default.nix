@@ -13,7 +13,7 @@
     ./security.nix
     ./services.nix
     ./starfish.nix
-    # ./steam.nix
+    ./steam.nix
     ./stylix.nix
     ./syncthing.nix
     ./system.nix
@@ -25,7 +25,11 @@
     ./../../cachix.nix
 
     inputs.stylix.nixosModules.stylix
-    
+
   ];
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlo1"; # Replace with your actual interface name
+  };
   environment.systemPackages = with pkgs; [ quickshell ];
 }

@@ -24,7 +24,7 @@ in
     ./swappy.nix
     ./swaync.nix
     ./virtmanager.nix
-    waybarChoice
+   waybarChoice
     ./wlogout
     ./xdg.nix
     ./yazi
@@ -34,5 +34,6 @@ in
     # ./spotify.nix
     ./kdeconnect.nix
     ./wezterm/wezterm.nix
+    ./easyeffect.nix
   ];
 }

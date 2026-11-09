@@ -9,7 +9,6 @@
     tumbler.enable = true; # Image/video preview
     # lorri.enable = true;
     gnome.gnome-keyring.enable = true;
-    v2raya.enable = true;
     smartd = {
       enable = if profile == "vm" then false else true;
       autodetect = true;
